@@ -1,7 +1,7 @@
 # FHIR Artifact Analyzer
 
 ## 1. Visão geral
-O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em um conjunto formado por guias de implementação, diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
+O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
 Algumas das funcionalidades incluem:
 
 - Listagem de artefatos contidos na entrada como `StructureDefinitions`, `CodeSystems`, `ValueSets`, instâncias de recursos e de perfis, dentre outros.
