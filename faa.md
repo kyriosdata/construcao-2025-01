@@ -22,7 +22,7 @@ quanto para aqueles responsáveis pela criação de perfis FHIR.
 O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/index.html).
 
 ## 2. Objetivos
-- **Identificar**: localizar todos os artefatos FHIR das entradas fornecidas, como guias de implementação, pacotes `.tgz`, arquivos JSON e outras formas.
+- **Identificar**: localizar todos os artefatos FHIR contidos na entrada fornecida, como guias de implementação, pacotes `.tgz`, arquivos JSON e outras formas.
 - **Validar**: Verificar URLs canônicas e conformidade com o padrão FHIR 4.0.1, inclusive duplicidades e outros. 
 - **Organizar**: indexar os artefatos para busca eficiente e geração de grafos dirigidos, além de dados estatísticos.
 - **Visualizar**: fornecer uma interface via linha de comandos e outra web para explorar os artefatos e suas relações.
