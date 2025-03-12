@@ -183,7 +183,7 @@ project-root/
 
 
 ## 9. Contato
-Para dúvidas ou sugestões, entre em contato pelo e-mail: [fabio@inf.ufg.br](mailto:fabio@inf.ufg.br).
+Para dúvidas ou sugestões, crie uma *issue* correspondente no presente projeto.
 
 
 ## Onboarding
