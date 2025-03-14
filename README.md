@@ -1,6 +1,6 @@
 # Construção de Software (2025/1)
 
-Apresenta projetos a serem utilizados pelas atividades práticas da disciplina [Construção de Software](docs/plano-construcao-2025-01.pdf) (2025/01).
+Apresenta projetos a serem utilizados nas atividades práticas da disciplina [Construção de Software](docs/plano-construcao-2025-01.pdf) (2025/01).
 
 Todos eles pertinentes
 ao padrão [FHIR](https://hl7.org/fhir/R4). FHIR é um padrão para troca de dados em saúde. Alguns dos elementos relevantes:
