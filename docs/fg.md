@@ -3,6 +3,16 @@
 ## Overview
 The `fg` command-line interface (CLI) is a tool for managing and running the FHIR Guard application. It provides a consistent and easy-to-use interface for installing, updating, starting, stopping, and monitoring different versions of this application. By default, `fg` operates in CLI mode, but a graphical interface can be launched by using the `gui` command.
 
+## Getting Started
+Quick reference for common operations:
+
+1. Install the latest version: `fg update`
+2. Start the application: `fg start`
+3. Check status: `fg status`
+4. View logs: `fg logs [pid]`
+5. Stop application: `fg stop [pid]`
+
+
 ## Requirements
 - Supported OS (latest versions of): Windows, macOS, Linux
 - Minimum RAM: 2GB
@@ -27,6 +37,7 @@ The user's home directory can be identified using the commands below:
 
 ## Commands
 
+### Basic commands
 
 #### `fg available`
 - Lists all available FHIR Guard versions, regardless of what is installed in the working directory.
@@ -49,6 +60,8 @@ Version     Release Date
 - Success output: `Graphical interface started successfully.`
 - Error output (in red): `Failed to start graphical interface`. In this case, an error message is shown
 in the next line (in black).
+
+> **Note**: the GUI requires a graphical environment to be available on your system.
 
 ### Installation management
 
@@ -87,6 +100,8 @@ graph LR
   - Success output (in green): `Updated to version [new version]. This is now the default version.`
   - No update available: `No newer version available. You have available the latest version: [current version].`
   - Error output (in red): `Failed to update: [error reason]`
+
+> **Note**: internet connectivity is required for the update process to check for and download new versions.
 
 #### `fg uninstall [version]`
 - Removes a specific version of the application.
