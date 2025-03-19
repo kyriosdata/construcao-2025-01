@@ -20,6 +20,8 @@ Definição de contas no github e formação dos grupos: preencha a [planilha](h
 
 # Sprint 1 (19/03)
 - Esclarecimento de dúvidas.
+- Identificação do projeto a ser realizado pelo grupo.
+- Atualização da planilha (indicação do repositório empregado pelo grupo)
 
 # Sprint 2 (21/03)
 - Proposta de plano de construção. Possivelmente conterá:
