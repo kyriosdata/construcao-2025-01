@@ -17,3 +17,9 @@ Opções:
 - [FHIR Unit Test](docs/fut.md)
 
 Definição de contas no github e formação dos grupos: preencha a [planilha](https://docs.google.com/spreadsheets/d/1I3StF95ieTRd_je2aaprwDr5gfE4BAmdifdjKdcDRBA/edit?usp=sharing).
+
+# Sprint 1 (19/03)
+- Esclarecimento de dúvidas.
+
+# Sprint 2 (21/03)
+- Proposta de plano de construção (apenas um [modelo](docs/plano-construcao-2025-01.pdf)).
