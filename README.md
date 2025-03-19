@@ -22,4 +22,10 @@ Definição de contas no github e formação dos grupos: preencha a [planilha](h
 - Esclarecimento de dúvidas.
 
 # Sprint 2 (21/03)
-- Proposta de plano de construção (apenas um [modelo](docs/plano-construcao-2025-01.pdf)).
+- Proposta de plano de construção. Possivelmente conterá:
+  - Uma análise dos requisitos (modelos, diagramas conceituais, ...)
+  - Arquitetura (grandes componentes da aplicação a ser desenvolvida)
+  - Tecnologias: Java, C# ou outra utilizada, bibliotecas, ferramentas como IDE, testes, ...
+  - Repositório do projeto (github)
+  - Critérios de aceitação (testes, medidas aplicáveis, ...)
+  - Estratégia para comunicação entre membros da equipe (discord, ...)
