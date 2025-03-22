@@ -31,3 +31,9 @@ Definição de contas no github e formação dos grupos: preencha a [planilha](h
   - Repositório do projeto (github)
   - Critérios de aceitação (testes, medidas aplicáveis, ...)
   - Estratégia para comunicação entre membros da equipe (discord, ...)
+ 
+# 26/03
+- Todos os elementos necessários para a implementação da aplicação são dominados? Se não,
+trabalhar cada um deles neste período. Exemplo: operação para início de processo externo (gestão de processo), download de arquivos, interface gráfica, interface via linha de comandos e outros.
+- Resultado esperado (1). Refinar o plano, em particular, com a identificação precisa das tecnologias a serem utilizadas.
+- Resultado esperado (2). A organização da aplicação, componentes, está definida. 
