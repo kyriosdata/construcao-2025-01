@@ -38,3 +38,7 @@ trabalhar cada um deles neste período. Exemplo: operação para início de proc
 - Resultado esperado (1). Refinar o plano, em particular, com a identificação precisa das tecnologias a serem utilizadas.
 - Resultado esperado (2). A organização da aplicação, componentes, está definida.
 - Resultado esperado (3). Domínio das ferramentas necessárias (bibliotecas e outros).
+
+# 04/04
+- Código que exercita a arquitetura proposta para a aplicação.
+- Nenhuma funcionalidade é esperada, mas a identificação de componentes e a conexão deve estar disponível e executável por meio de código.
