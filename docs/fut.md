@@ -56,7 +56,7 @@ instance_path: instances/patient_example.json  # Instância a ser validada
 # 1. <nome do arquivo yaml>.json
 # 2. <test_id>.json
 
-expected_results:  # Defines the expected validation results.
+expected_results:  # Resultados esperados
   status: success  # Expected overall level ('success', 'error', 'warning', 'information').
   errors: []  # List of expected errors (empty list indicates success).
   warnings: []  # List of expected warnings.
