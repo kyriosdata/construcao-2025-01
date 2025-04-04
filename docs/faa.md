@@ -2,9 +2,10 @@
 
 ## 1. Visão geral
 O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
+
 Algumas das funcionalidades incluem:
 
-- Listagem de artefatos contidos na entrada como instâncias dos recursos `StructureDefinitions`, `CodeSystems`, `ValueSets`, instâncias de recursos e de perfis, dentre outros.
+- Listagem de artefatos contidos na entrada como instâncias dos recursos `StructureDefinitions`, `CodeSystems` e `ValueSets`, dentre outros.
 - Validação de URLs canônicas e conformidade com o padrão FHIR. Alguns recursos possuem um atributo **url** por meio da qual é definida a URL canônica ou endereço onde a instância em questão pode ser recuperada.
 - Representação das relações entre artefatos em um grafo dirigido. As URLs canônicas e propriedades do tipo [Reference](https://www.hl7.org/fhir/R4/references.html#Reference).
 - Exportação de resultados em JSON e CSV.
