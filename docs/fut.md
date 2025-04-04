@@ -66,13 +66,14 @@ expected_results:  # Resultados esperados
       expected: true # Optional. Default is true.
 ```
 
-**Rules for `instance_path` and `instance`:**
+**Regras para `instance_path` e `instance`:**
 
-1.  `instance_path`: If provided, the tool will use the file at the specified path.
-2.  Convention: If `instance_path` is not provided, the tool will search for:
-    *   A file with the same name as the YAML file, but with a `.json` extension.
-    *   If not found, a file with the name of the `test_id` and a `.json` extension.
-3.  Error: If no instance is found, an error will be produced.
+1.  `instance_path`: se fornecida, então indica a instância a ser verificada.
+2.  Convenção: se `instance_path` não é fornecida, a ferramenta irá procurar por:
+    *   Arquivo com o mesmo nome do arquivo YAML, mas com a extensão `.json`.
+    *   Se não encontrado, um arquivo com o nome `test_id` e a extensão `.json` será empregado.
+3.  Se `instance_path` não é fornecida e a convenção não resulta na localização de um
+arquivo, então a execução do teste falha. 
 
 ## 2. Test Suite Organization
 
