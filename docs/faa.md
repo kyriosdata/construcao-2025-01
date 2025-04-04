@@ -61,7 +61,11 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
   - Status de validação.
   - Referências (artefatos referenciados ou referenciadores).
 
-### 3.4 Visualização de Grafo
+### 3.4 Visualização de Grafo e estatísticas
+- Algumas estatísticas relevantes:
+  - Total de artefatos por tipo (recurso)
+  - Total de artefatos
+  - Total de falhas (conforme validações)
 - Exibir as relações entre artefatos em um grafo dirigido.
 - Permitir interatividade:
   - Zoom, pan, seleção para destaque de nós (centralizar) e de conexões.
