@@ -1,0 +1,22 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "Mulher",
+    "url": "https://perfil.com/mulher",
+    "version": "1.0.0",
+    "name": "Mulher",
+    "fhirVersion": "4.0.1",
+    "kind": "resource",
+    "abstract": false,
+    "type": "Patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+    "derivation": "constraint",
+    "differential": {
+      "element": [
+        {
+          "id": "Patient.gender",
+          "path": "Patient.gender",
+          "patternCode": "female"
+        }
+      ]
+    }
+  }

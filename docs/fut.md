@@ -25,6 +25,26 @@ FUT é uma ferramenta projetada para simplificar e automatizar o processo de val
 instâncias de recursos FHIR. Um caso de uso típico é o suporte ao desenvolvimento de Guias de Implementação. Neste cenário, o desenvolvedor de um guia de implementação 
 define casos de teste em conformidade com os perfis fornecidos (artefatos de conformidade) e verifica se instâncias de recursos atendem tais artefatos. A ferramenta é inspirada no conceito do JUnit, mas adaptada ao contexto do FHIR.
 
+## Ilustração de usos
+
+### Nenhum argumento
+
+**fut**
+Executa todos os testes contidos no diretório corrente. Os testes são definidos
+por arquivos com a extensão .yaml.
+
+### Indicação específica de teste a ser executado
+
+**fut teste/x.yml y.yml**
+Executa o teste registrado no arquivo **x.yml**, contido no diretório **teste**,
+e o teste em **y.yml** contido no diretório corrente.
+
+### Vários testes
+
+**fut patient-*.yml**
+Executa todos os testes disponíveis no diretório corrente 
+cujos arquivos têm como prefixo **patient-** e sufixo **.yml**.
+
 ## Componentes
 
 1. Casos de teste: unidades de teste individuais, contendo a definição do contexto (artefatos de conformidade), a instância a ser validada e os resultados esperados.
@@ -42,7 +62,7 @@ conforme a estrutura fornecida abaixo:
 
 ```yaml
 test_id: Patient-001  # Identificador único do caso de teste. 
-description: Nome obrigatório não é fornecido. # Descrição do caso de teste
+description: Nome do paciente não é fornecido. # Descrição do caso de teste
 context:  # Define com o que a instância deve estar em conformidade com
   igs:  # Lista de guias de implementação a serem utilizados
     - br.go.ses.core#0.0.1
@@ -75,56 +95,100 @@ expected_results:  # Resultados esperados
 3.  Se `instance_path` não é fornecida e a convenção não resulta na localização de um
 arquivo, então a execução do teste falha. 
 
-## 2. Test Suite Organization
+## 2. Execução de testes
 
-Test suites can be organized in two ways:
+1.  A ferramenta identifica os testes a serem executados.
+2.  Para cada teste (arquivo YAML):
+    *   Lê o arquivo
+    *   Extrai as informações nele contidas
+    *   Monta a requisição correspondente para o validador (parâmetros)
+    *   Executa o validador (`validator_cli`) com os parâmetros
+    *   Captura a resposta fornecida pelo validador
+    *   Compara a resposta fornecida pelo validador com as respostas esperadas
+3.  A representação visual da comparação é produzida.
+4. Convém observar que a execução concorrente dos testes é desejável e segura,
+pois testes devem ser, idealmente, independentes.
+5. Timeout deve ser implementado por teste.
+6. A versão mais recente do `validator_cli` deve ser empregada. Se não disponível
+localmente, deve ser obtida.
 
-*   **Directory Structure:**
-    *   Each directory within a root `tests/` directory represents a suite.
-    *   The YAML files within each directory are the test cases.
+## 4. Comparação
 
-    ```
-    tests/
-      ├── suite_br-core/
-      │   ├── Patient-001.yaml
-      │   ├── Patient-002.yaml
-      │   └── Observation-001.yaml
-      ├── suite_medications/
-      │   ├── Medication-001.yaml
-      │   └── MedicationRequest-001.yaml
-      └── ...
-    ```
+*   Compara o que foi produzido pelo validador com o que foi especificado em `expected_results`. 
+Convém lembrar que a resposta do validador é uma instância de [OperationOutcome](https://www.hl7.org/fhir/R4/operationoutcome.html). 
 
-*   **Manifest File (YAML):**
-    *   A YAML file that lists the suites and their respective paths.
+Observe a sequência de passos seguinte para compreensão. Primeiro, execute o validador via linha de comandos:
 
-    ```yaml
-    suites:
-      - name: BR Core
-        path: tests/suite_br-core
-      - name: Medications
-        path: tests/suite_medications
+- `java -jar validator_cli.jar -version 4.0.1 homem.json -ig perfil.json -output saida.json`
 
-    ```
+Neste caso a instância **homem.json** será validada. O único artefato de conformidade é o
+arquivo **perfil.json** e a resposta, a instância de OperationOutcome será depositada no
+arquivo **saida.json**. O arquivo contendo a instância a ser testada e o arquivo contendo 
+o perfil estão disponíveis no diretório **fut**. A saída é indicada abaixo:
 
-## 3. Test Execution
+```json
+{
+  "resourceType" : "OperationOutcome",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>OperationOutcome </b></p><table class=\"grid\"><tr><td><b>Severity</b></td><td><b>Location</b></td><td><b>Code</b></td><td><b>Details</b></td><td><b>Diagnostics</b></td><td><b>Source</b></td></tr><tr><td>error</td><td>Patient.gender</td><td>value</td><td>Value is 'male' but is fixed to 'female' in the profile https://perfil.com/mulher|1.0.0#Patient.gender</td><td/><td>InstanceValidator</td></tr><tr><td>warning</td><td>Patient</td><td>invariant</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td><td/><td>InstanceValidator</td></tr></table></div>"
+  },
+  "extension" : [{
+    "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-file",
+    "valueString" : "homem.json"
+  }],
+  "issue" : [{
+    "extension" : [{
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+      "valueInteger" : 9
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+      "valueInteger" : 22
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-source",
+      "valueString" : "InstanceValidator"
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+      "valueCode" : "_DT_Fixed_Wrong"
+    }],
+    "severity" : "error",
+    "code" : "value",
+    "details" : {
+      "text" : "Value is 'male' but is fixed to 'female' in the profile https://perfil.com/mulher|1.0.0#Patient.gender"
+    },
+    "expression" : ["Patient.gender"]
+  },
+  {
+    "extension" : [{
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+      "valueInteger" : 1
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+      "valueInteger" : 4
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-source",
+      "valueString" : "InstanceValidator"
+    },
+    {
+      "url" : "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+      "valueCode" : "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+    }],
+    "severity" : "warning",
+    "code" : "invariant",
+    "details" : {
+      "text" : "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)"
+    },
+    "expression" : ["Patient"]
+  }]
+}
+```
 
-1.  The tool reads the suite configuration (directory or manifest).
-2.  For each test case (YAML file):
-    *   Reads the file.
-    *   Extracts the context (IGs, profiles, additional resources).
-    *   Locates and loads the instance (using `instance_path`, `instance`, or the convention).
-    *   Executes the FHIR validator (`validator_cli` or other) with the appropriate parameters.
-    *   Captures the validator's output.
-    *   Processes the output to extract the results.
-3.  Parallelization is possible, but file access must be handled carefully.
-4.  Timeout must be implemented.
-5. The most recent version of `validator_cli` is downloaded and used.
-
-## 4. Result Comparison
-
-*   Compares the obtained results with the `expected_results`. The answer of the `validator_cli` is an instance of [OperationOutcome](https://www.hl7.org/fhir/R4/operationoutcome.html).
-*   Records the discrepancies.
+Observe que o arquivo acima possui um erro e um aviso. A ideia é que este resultado seja verificado com o que é esperado e apresentado o resultado da comparação de forma adequada para o usuário.
 
 ## 5. Report Generation
 

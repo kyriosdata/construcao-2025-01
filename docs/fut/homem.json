@@ -1,0 +1,10 @@
+{
+    "resourceType": "Patient",
+    "active": true,
+    "meta" : {
+      "profile" : [
+        "https://perfil.com/mulher"
+      ]
+    },
+    "gender" : "male"
+  }
