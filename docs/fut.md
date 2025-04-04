@@ -1,50 +1,59 @@
 # FHIRUT - FHIR Unit Test Suite
 
-This document describes FHIRUT, a tool for automating validation tests of FHIR resources. The pronunciation could be like "FHIR ROOT".
+Este documento descreve FUT, uma ferramenta para automatizar testes de conformidade 
+de instâncias de recursos FHIR. 
 
-## Context
-FHIR is a flexible standard, which makes compliance checking a complex process. HL7 recommends using the reference implementation of the FHIR validator (`validator_cli`).
+## Contexto
 
-For example,
+FHIR é um padrão flexível, o que torna a verificação de conformidade um processo complexo. 
+Felizmente, a complexidade da verificação conta com o apoio de ferramentas, 
+inclusive o *validator_cli.jar*, a ferramenta oficial recomendada pela HL7 para tal operação.
 
+Abaixo segue um exemplo de como esta ferramenta pode ser empregada:
 ```
 java -jar validator_cli.jar -version 4.0.1 -output output.json input.json
 ```
 
-produces an instance of the [OperationOutcome](https://hl7.org/fhir/R4/operationoutcome.html) resource, deposited in the **output.json** file, containing the result of evaluating the instance contained in the **input.json** file. For more information on using the validator, consult the available [documentation](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator).
+produz uma instância do recurso [OperationOutcome](https://hl7.org/fhir/R4/operationoutcome.html), depositada no arquivo *output.json*, contendo o resultado da avaliação da instância contida no arquivo *input.json*. Para mais informações sobre o uso do validador, consulte a [documentação](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) disponível.
 
-In essence, the purpose of this project is to create a solution that receives multiple inputs (instances) of resources to be validated, as well as the corresponding expectations, and presents the results to the user according to the established expectations.
+Em essência, o objetivo deste projeto é criar uma solução que receba múltiplas entradas (instâncias) de recursos a serem validadas, bem como as expectativas correspondentes, a solução requisita a validação de cada uma delas, recupera os resultados, compara com as expectativas também fornecidas, e apresenta
+os resultados em formato de "fácil consumo" para o usuário final.
 
-## Overview
+## Visão geral
 
-FHIRUT is a tool designed to simplify and automate the process of validating FHIR resources. A key use case for FHIRUT is supporting Implementation Guide development. It allows users to define test cases, organize them into suites, run validation automatically, and view the results in a clear and concise manner. The tool is inspired by the concept of JUnit, but adapted to the FHIR context.
+FUT é uma ferramenta projetada para simplificar e automatizar o processo de validação de 
+instâncias de recursos FHIR. Um caso de uso típico é o suporte ao desenvolvimento de Guias de Implementação. Neste cenário, o desenvolvedor de um guia de implementação 
+define casos de teste em conformidade com os perfis fornecidos (artefatos de conformidade) e verifica se instâncias de recursos atendem tais artefatos. A ferramenta é inspirada no conceito do JUnit, mas adaptada ao contexto do FHIR.
 
-## Key Components
+## Componentes
 
-1.  Test Cases: individual test units, containing the definition of the context, the instance to be validated, and the expected results.
-2.  Test Suites: logical groupings of related test cases.
-3.  Test Runner: the component responsible for executing the tests, using a FHIR validator (such as `validator_cli`).
-4.  Result Comparator: the component that compares the obtained results with the expected results.
-5.  Report Generator: the component that generates detailed and visually appealing reports of the test results.
-6.  Graphical User Interface (Optional): an interface to facilitate user interaction.
+1. Casos de teste: unidades de teste individuais, contendo a definição do contexto (artefatos de conformidade), a instância a ser validada e os resultados esperados.
 
-## 1. Test Case Definition
+2. Máquina de execução de testes: o componente responsável por requisitar a execução dos testes, tarefa a ser realizada pelo validador FHIR oficial (veja [documentação](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator)).
 
-Test cases are defined in YAML files, with the following structure:
+3. Comparador de resultados: o componente que compara os resultados obtidos, fornecidos pelo validador, com os resultados esperados.
+
+4. Gerador de relatórios: o componente que gera relatórios detalhados e visualmente atrativos dos resultados dos testes (comparação do esperado com o obtido).
+
+## 1. Definição de caso de teste
+
+Um caso de teste pode ser definido por meio de um arquivo YAML, por exemplo,
+conforme a estrutura fornecida abaixo:
 
 ```yaml
-test_id: Patient-001  # Unique identifier of the test case (string).
-description: Checks the basic structure of a Patient resource. # Description (string).
-context:  # Defines the validation context.
-  igs:  # List of Implementation Guides (IGs) to be used.
-    - br-core-r4  # IDs of the IGs (list of strings).
-  profiles:  # List of profiles (StructureDefinitions) to be applied.
-    - br-patient  # IDs of the profiles or canonical URLs (list of strings).
-  resources:  # (Optional) Additional FHIR resources (ValueSet, CodeSystem, etc.).
-    - valuesets/my-valueset.json  # Path to the file or the inline resource.
-instance_path: instances/patient_example.json  # Path to the instance file (recommended).
-# If instance_path is not provided, the tool searches, by convention:
-# 1. <yaml file name>.json
+test_id: Patient-001  # Identificador único do caso de teste. 
+description: Nome obrigatório não é fornecido. # Descrição do caso de teste
+context:  # Define com o que a instância deve estar em conformidade com
+  igs:  # Lista de guias de implementação a serem utilizados
+    - br.go.ses.core#0.0.1
+  profiles:  # Perfis a serem utilizados na validação
+    - https://fhir.saude.go.gov.br/r4/core/StructureDefinition/individuo 
+  resources:  # Instâncias adicionais de recursos de conformidade
+    - valuesets/my-valueset.json  # Arquivo específico
+    - instancias/ # todos os artefatos de conformidade contidos neste diretório
+instance_path: instances/patient_example.json  # Instância a ser validada
+# Se a instância não é indicada explicitamente, considerar:
+# 1. <nome do arquivo yaml>.json
 # 2. <test_id>.json
 
 expected_results:  # Defines the expected validation results.
