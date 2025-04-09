@@ -190,63 +190,36 @@ o perfil estão disponíveis no diretório **fut**. A saída é indicada abaixo:
 
 Observe que o arquivo acima possui um erro e um aviso. A ideia é que este resultado seja verificado com o que é esperado e apresentado o resultado da comparação de forma adequada para o usuário.
 
-## 5. Report Generation
+## 5. Geração de relatórios
 
-*   Main Format: HTML (browsable and visually appealing).
-*   Additional format: JSON (for possible integration with other tools).
+*   Formato principal: HTML (navegável e visualmente atraente).
+*   Formato adicional: JSON (para possível integração com outras ferramentas).
 
-HTML Report Structure (initial suggestion):
+Estrutura do relatório HTML (sugestão inicial):
 
-*   Summary:
-    *   Overall statistics (tests executed, passed/failed/warnings, graphs).
-    *   Execution time.
-    *   List of suites with summarized results.
+*   Resumo:
+    *   Estatísticas gerais (testes executados, aprovados/reprovados/avisos, gráficos).
+    *   Tempo de execução por teste, por todos os testes.
 
-*   Details per Suite:
-    *   Suite name.
-    *   Suite statistics.
-    *   Table with test results (link to details).
+*   Detalhes por Teste:
+    *   `test_id`, `description`, contexto.
+    *   Instância (formatada).
+    *   Resultados Esperados.
+    *   Resultados Obtidos (tabela com diagnósticos, localização e severidade do OperationOutcome).
+    *   Diferenças destacadas.
+    *   Saída bruta do validador (opcional).
 
-*   Details per Test:
-    *   `test_id`, `description`, context.
-    *   Instance (formatted).
-    *   Expected Results.
-    *   Obtained Results (table with OperationOutcome's diagnostics, location, severity).
-    *   Highlighted differences.
-    *   Raw validator output (optional).
+## 6. Backend
 
-## 6. User Interface
+Responsável pela requisição de execuções de validação e processamento dos resultados.
+É esperado que possa se integrar a outros validadores. 
 
-*   MVP: Command-line interface (CLI) + HTML Reports.
-*   Later Phase: Graphical User Interface (GUI)
-    *   GUI Features:
-        *   Dashboard.
-        *   Suite Manager.
-        *   Test Case Manager (create, edit, view, delete).
-        *   Test Execution (selection, progress, real-time results).
-        *   Result Visualization (navigation, filters, comparison).
-        *   Settings.
+Principais responsabilidades:
 
-### Suggested Technologies (for those that uses Python)
-
-**Note**: while specific technologies are suggested, they are not mandatory. The only requirement is that all tools used be open source.
-
-*   Language: Python.
-*   Graphical User Interface (Optional): Streamlit.
-*   Validator: `validator_cli` (or other).
-*   Test Case Format: YAML.
-*   Reports: HTML, Jinja2, Plotly (optional).
-
-## 7. Backend
-
-The backend is the core of FHIRUT, responsible for all the heavy lifting involved in test execution, validation, and result processing. It is designed to be modular and extensible, allowing for future enhancements and integration with different FHIR validators.
-
-Key Responsibilities:
-
-1.  Test Case Loading and Parsing:
-    *   Reads test case definitions from YAML files.
-    *   Handles the logic for locating instance files (using `instance_path`, `instance`, or the naming convention).
-    *   Parses the YAML structure and validates it against a predefined schema (to ensure correct format).
+1.  Carga dos casos de teste:
+    *   Carregas as definições de testes de arquivos YAML.
+    * Implementa a localização de arquivos de instâncias (`instance_path`, `instance` ou convenção de nomes).
+    *   Valida o arquivo YAML (formato compatível com o esperado). 
     *   Handles potential errors gracefully (e.g., missing files, invalid YAML).
 
 2.  Suite Management:

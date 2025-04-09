@@ -39,6 +39,6 @@ trabalhar cada um deles neste período. Exemplo: operação para início de proc
 - Resultado esperado (2). A organização da aplicação, componentes, está definida.
 - Resultado esperado (3). Domínio das ferramentas necessárias (bibliotecas e outros).
 
-# 04/04
+# 04/04, 09/04 e 11/04 (Spring 3)
 - Código que exercita a arquitetura proposta para a aplicação.
 - Nenhuma funcionalidade é esperada, mas a identificação de componentes e a conexão deve estar disponível e executável por meio de código.
