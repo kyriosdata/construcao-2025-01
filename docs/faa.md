@@ -3,7 +3,7 @@
 ## 1. Visão geral
 O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
 
-Algumas das funcionalidades incluem:
+Algumas das funcionalidades, apenas para uma visão geral, estão ilustradas abaixo:
 
 - Listagem de artefatos contidos na entrada como instâncias dos recursos `StructureDefinitions`, `CodeSystems` e `ValueSets`, dentre outros.
 - Validação de URLs canônicas e conformidade com o padrão FHIR. Alguns recursos possuem um atributo **url** por meio da qual é definida a URL canônica ou endereço onde a instância em questão pode ser recuperada.
@@ -32,22 +32,21 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
 ## 3. Funcionalidades principais
 
 ### 3.1 Identificação da entrada
-- Itens de entrada:
-  - guias de implementação (url canônica do guia)
-  - Pacotes `.tgz` (NPM Package).
-  - Arquivos .zip contendo artefatos
-  - URL para um dos elementos acima.
-  - Diretórios (e possivelmente subdiretórios) contendo artefatos.
-  - Arquivos individuais indicados.
-  - Expressões regulares para seleção de artefatos
-- Identificar os artefatos a partir dos itens de entrada:
-  - `StructureDefinitions`, `CodeSystems`, `ValueSets`, `Extensions`, etc.
-- Extrair e gerar metadados para cada artefato visando apoiar as demais funcionalidades.
-- Monitoramento de diretórios e arquivos para sinalizar atualizações, que devem repercutir nos metadados e, na sequência, nas visualizações exibidas, por exemplo.
+- A entrada pode ser fornecida por meio de:
+  - Pacotes `.tgz` (NPM Package), por exemplo, `http://hl7.org/fhir/us/core/package.tgz`.
+  - Arquivos .zip contendo artefatos, seja um arquivo disponível localmente ou acessível via URL de acesso público.
+  - Diretórios (e possivelmente subdiretórios). Por exemplo, pode-se indicar um diretório e, adicionalmente, que os subdiretórios deste diretório devem ser consultados.
+  - Arquivos individuais identificados, por exemplo, *x.json* e *c:\teste\y.json*. Arquivos podem ser locais ou estarem disponíveis remotamente.
+  - Quando arquivos forem fornecidos como entrada, deve ser possível fornecer expressões regulares para indicar os arquivos relevantes para serem considerados.
+- Estes itens de entrada identificam arquivos cujos conteúdos são instâncias de recursos FHIR serializados em JSON. Em particular, os recursos FHIR relevantes estão restritos a: (a) `StructureDefinition`; (b) `CodeSystem`, (c) `ValueSet`, (d) `CapabilityStatement`; (e) `ImplementationGuide`; (f) `OperationDefinition` e (g) `SearchParameter`. Observe que a entrada pode conter instâncias de outros recursos distintos destes considerados relevantes e, neste caso, tais instâncias podem ser simplesmente ignoradas. 
+- Arquivos contendo instâncias relevantes deverão ser carregados e do conteúdo extraído metadados para apoiar as demais funcionalidades. Por exemplo, cada arquivo tem um nome, tem o tipo do recurso nele contido, por exemplo, `StructureDefinition` (dentre aqueles identificados acima), e assim por diante.
+- A entrada deve ser monitorada periodicamente por mudanças. Na ocorrência de uma mudança, o conteúdo correspondente deve ser recarregado para refletir a atualização no conteúdo. 
+  - Caso a entrada seja remota, periodicamente mudanças deverão ser verificadas, provavelmente por meio de uma requisição (HTTP HEAD) com o header `Last-Modified`.
+  - Caso a entrada seja local, arquivo ou diretório, `fs.watch` (NodeJS) e `Watchservice` (Java) ilustram bibliotecas que podem ser empregadas, dentre outras opções usando outras linguagens. 
 
 ### 3.2 Validação
 - URLs Canônicas:
-  - Verificar se as URLs canônicas estão acessíveis.
+  - Verificar se as URLs canônicas estão acessíveis. Isto pode ser feito via requisição HEAD (http) seguida da verificação de `Content-Type` e `Content-Length`, por exemplo.
 - Referências
   - Verificar se referências literais (Reference.reference) contidas (internas), relativas ou absolutas estão acessíveis (incluir validação sintática).
   - Verificar se referências literais (Reference.reference) urn:oid e urn:uuid são sintaticamente válidas e se estão acessíveis.
