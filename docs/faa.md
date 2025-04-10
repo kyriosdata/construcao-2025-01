@@ -3,14 +3,7 @@
 ## 1. Visão geral
 O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
 
-Algumas das funcionalidades, apenas para uma visão geral, estão ilustradas abaixo:
-
-- Listagem de artefatos contidos na entrada como instâncias dos recursos `StructureDefinitions`, `CodeSystems` e `ValueSets`, dentre outros.
-- Validação de URLs canônicas e conformidade com o padrão FHIR. Alguns recursos possuem um atributo **url** por meio da qual é definida a URL canônica ou endereço onde a instância em questão pode ser recuperada.
-- Representação das relações entre artefatos em um grafo dirigido. As URLs canônicas e propriedades do tipo [Reference](https://www.hl7.org/fhir/R4/references.html#Reference).
-- Exportação de resultados em JSON e CSV.
-- Interface via linha de comandos.
-- Interface gráfica web para visualização interativa.
+As funcionalidas oferecidas devesão ser exploradas por meio de duas interfaces, uma via linha de comandos e outra via interface gráfica (web).
 
 _Contexto_. O uso do FHIR é registrado por artefatos em um Guia de Implementação, geralmente um NPM Package (.tgz). Também é possível
 que tais artefatos sejam fornecidos em um diretório contendo os arquivos JSON ou até identificados unicamente, arquivo por arquivo. Cada arquivo, 
@@ -62,11 +55,12 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
   - Referências (artefatos referenciados ou referenciadores).
 
 ### 3.4 Visualização de Grafo e estatísticas
+
 - Algumas estatísticas relevantes:
   - Total de artefatos por tipo (recurso)
   - Total de artefatos
   - Total de falhas (conforme validações)
-- Exibir as relações entre artefatos em um grafo dirigido.
+- Exibir as relações entre artefatos em um grafo dirigido. Instâncias de recursos FHIR estão ligadas a outras por meio de vários tipos: (a) canonical; (b) uri e (c) [Reference](https://www.hl7.org/fhir/R4/references.html#Reference). Noutras palavras, nas instâncias dos recursos "relevantes", já identificados, `StructureDefinition` e outros, os elementos destes tipos devem ser utilizados para formar o grafo a ser exibido. 
 - Permitir interatividade:
   - Zoom, pan, seleção para destaque de nós (centralizar) e de conexões.
   - Aplicação de filtros no grafo.
