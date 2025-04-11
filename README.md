@@ -1,8 +1,9 @@
 # Construção de Software (2025/1)
 
-Apresenta projetos a serem utilizados nas atividades práticas da disciplina [Construção de Software](docs/plano-construcao-2025-01.pdf) (2025/01).
+Apresenta projetos a serem utilizados nas atividades práticas da disciplina [Construção de Software](docs/plano-construcao-2025-01.pdf) (2025/01)
+e permite acompanhar o [desempenho](https://docs.google.com/spreadsheets/d/1I3StF95ieTRd_je2aaprwDr5gfE4BAmdifdjKdcDRBA/edit?usp=sharing).
 
-Todos eles pertinentes
+Os projetos são pertinentes
 ao padrão [FHIR](https://hl7.org/fhir/R4). FHIR é um padrão para troca de dados em saúde. Alguns dos elementos relevantes:
 
 - Recursos são "estruturas de dados". Por exemplo, para o registro de um paciente usa-se o recurso Patient. Uma instância serializada em JSON deste recurso pode ser obtida [aqui](https://www.hl7.org/fhir/R4/patient-example.json.html).
@@ -16,12 +17,16 @@ Opções:
 - [FHIR Guard](docs/fg.md)
 - [FHIR Unit Test](docs/fut.md)
 
-Definição de contas no github e formação dos grupos: preencha a [planilha](https://docs.google.com/spreadsheets/d/1I3StF95ieTRd_je2aaprwDr5gfE4BAmdifdjKdcDRBA/edit?usp=sharing).
+# Sprint 3 (16/04, 18/04 e 23/04)
 
-# Sprint 1 (19/03)
-- Esclarecimento de dúvidas.
-- Identificação do projeto a ser realizado pelo grupo.
-- Atualização da planilha (indicação do repositório empregado pelo grupo)
+- Conclusão da arquitetura da aplicação. Os principais 
+componentes já devem estar identificados, assim como a 
+interação entre eles. Possivelmente, quase toda ela exercitada,
+estendendo o objetivo da Sprint 3.
+
+# Sprint 3 (04/04, 09/04 e 11/04)
+- Código que exercita a arquitetura proposta para a aplicação.
+- Nenhuma funcionalidade é esperada, mas a identificação de componentes e a conexão deve estar disponível e executável por meio de código.
 
 # Sprint 2 (21/03)
 - Proposta de plano de construção. Possivelmente conterá:
@@ -31,7 +36,12 @@ Definição de contas no github e formação dos grupos: preencha a [planilha](h
   - Repositório do projeto (github)
   - Critérios de aceitação (testes, medidas aplicáveis, ...)
   - Estratégia para comunicação entre membros da equipe (discord, ...)
- 
+
+# Sprint 1 (19/03)
+- Esclarecimento de dúvidas.
+- Identificação do projeto a ser realizado pelo grupo.
+- Atualização da planilha (indicação do repositório empregado pelo grupo)
+
 # 26/03
 - Todos os elementos necessários para a implementação da aplicação são dominados? Se não,
 trabalhar cada um deles neste período. Exemplo: operação para início de processo externo (gestão de processo), download de arquivos, interface gráfica, interface via linha de comandos, IDEs, ferramentas em geral e outros.
@@ -39,6 +49,3 @@ trabalhar cada um deles neste período. Exemplo: operação para início de proc
 - Resultado esperado (2). A organização da aplicação, componentes, está definida.
 - Resultado esperado (3). Domínio das ferramentas necessárias (bibliotecas e outros).
 
-# 04/04, 09/04 e 11/04 (Sprint 3)
-- Código que exercita a arquitetura proposta para a aplicação.
-- Nenhuma funcionalidade é esperada, mas a identificação de componentes e a conexão deve estar disponível e executável por meio de código.

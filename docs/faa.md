@@ -3,7 +3,7 @@
 ## 1. Visão geral
 O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
 
-As funcionalidas oferecidas devesão ser exploradas por meio de duas interfaces, uma via linha de comandos e outra via interface gráfica (web).
+As funcionalidas oferecidas devesão ser exploradas por meio de duas interfaces, uma via linha de comandos e outra via interface gráfica (web). Os artefatos relevantes são aqueles que são instâncias dos seguintes recursos FHIR: (a) `StructureDefinition`; (b) `CodeSystem`, (c) `ValueSet`, (d) `CapabilityStatement`; (e) `ImplementationGuide`; (f) `OperationDefinition` e (g) `SearchParameter`.
 
 _Contexto_. O uso do FHIR é registrado por artefatos em um Guia de Implementação, geralmente um NPM Package (.tgz). Também é possível
 que tais artefatos sejam fornecidos em um diretório contendo os arquivos JSON ou até identificados unicamente, arquivo por arquivo. Cada arquivo, 
@@ -25,7 +25,54 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
 ## 3. Funcionalidades principais
 
 ### 3.1 Identificação da entrada
-- A entrada pode ser fornecida por meio de:
+
+#### 3.1.1 Tipos de entrada
+- **Pacotes NPM (.tgz)**
+  - Tamanho máximo: 100MB
+  - Timeout para download: 30 segundos
+
+- **Arquivos ZIP**
+  - Tamanho máximo: 100MB
+
+- **Diretórios**
+  - Profundidade máxima de varredura: 5 níveis
+  - Limite de arquivos: 1.000 por diretório
+  - Tipos de arquivo ignorados: .git, node_modules, .xml e outros.
+
+- **Arquivos individuais**
+  - Formato: apenas JSON.
+  - Tamanho máximo por arquivo: 10MB
+  - Encoding: UTF-8
+
+#### 3.1.2 Expressões Regulares
+- Sintaxe: ECMAScript 2018
+- Case-sensitive por padrão
+- Timeout máximo de execução: 1 segundo
+- Exemplos de padrões válidos:
+  - `\.json$` - arquivos JSON
+  - `(StructureDefinition|ValueSet).*\.json$` - instâncias de recursos específicos
+
+#### 3.1.3 Monitoramento de mudanças
+- Intervalo de verificação:
+  - Recursos locais: a cada 3 segundos
+  - Recursos remotos: a cada 30 segundos
+- Detecção de mudanças:
+  - Metadados (data de modificação)
+- Tentativa de acesso a recursos remotos:
+  - 3 tentativas 
+  - Timeout: 10 segundos por tentativa
+
+#### 3.1.4 Metadados extraídos
+- Identificação do recurso:
+  - URL canônica
+  - Tipo de recurso
+  - Versão
+- Informações do arquivo:
+  - Path/URL
+  - Tamanho
+  - Última modificação
+
+#### 3.1.5 Esclarecimentos adicionais
   - Pacotes `.tgz` (NPM Package), por exemplo, `http://hl7.org/fhir/us/core/package.tgz`.
   - Arquivos .zip contendo artefatos, seja um arquivo disponível localmente ou acessível via URL de acesso público.
   - Diretórios (e possivelmente subdiretórios). Por exemplo, pode-se indicar um diretório e, adicionalmente, que os subdiretórios deste diretório devem ser consultados.
