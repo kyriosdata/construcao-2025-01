@@ -17,7 +17,7 @@ Opções:
 - [FHIR Guard](docs/fg.md)
 - [FHIR Unit Test](docs/fut.md)
 
-# Sprint 3 (16/04, 18/04 e 23/04)
+# Sprint 4 (16/04, 18/04 e 23/04)
 
 - Conclusão da arquitetura da aplicação. Os principais 
 componentes já devem estar identificados, assim como a 
