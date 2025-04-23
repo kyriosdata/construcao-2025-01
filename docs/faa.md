@@ -3,7 +3,7 @@
 ## 1. Visão geral
 O **FHIR Artifact Analyzer** é uma ferramenta para identificar, validar e facilitar a consulta acerca de artefatos do padrão FHIR (versão 4.0.1). Estes artefatos podem estar disponibilizadas em uma entrada definida por um conjunto formado por guias de implementação (arquivos .tgz), diretórios e inclusive arquivos, quaisquer um deles disponível localmente ou não.
 
-As funcionalidas oferecidas devesão ser exploradas por meio de duas interfaces, uma via linha de comandos e outra via interface gráfica (web). Os artefatos relevantes são aqueles que são instâncias dos seguintes recursos FHIR: (a) `StructureDefinition`; (b) `CodeSystem`, (c) `ValueSet`, (d) `CapabilityStatement`; (e) `ImplementationGuide`; (f) `OperationDefinition` e (g) `SearchParameter`.
+As funcionalidas oferecidas deverão ser exploradas por meio de duas interfaces, uma via linha de comandos e outra via interface gráfica (web). Os artefatos relevantes são aqueles que são instâncias dos seguintes recursos FHIR: (a) `StructureDefinition`; (b) `CodeSystem`, (c) `ValueSet`, (d) `CapabilityStatement`; (e) `ImplementationGuide`; (f) `OperationDefinition` e (g) `SearchParameter`.
 
 _Contexto_. O uso do FHIR é registrado por artefatos em um Guia de Implementação, geralmente um NPM Package (.tgz). Também é possível
 que tais artefatos sejam fornecidos em um diretório contendo os arquivos JSON ou até identificados unicamente, arquivo por arquivo. Cada arquivo, 
@@ -181,7 +181,7 @@ flowchart TD
    - Exibição interativa dos resultados.
 
 
-## 6. Requisitos Não Funcionais
+## 6. Requisitos não funcionais
 - **Desempenho**:
   - Suportar até 10.000 artefatos (~50 MB de dados).
   - Processamento síncrono em tempo real.
@@ -192,47 +192,3 @@ flowchart TD
 - **Usabilidade**:
   - Interface intuitiva com feedback visual.
 
-
-
-## 7. Estrutura Inicial do Repositório
-```plaintext
-project-root/
-├── backend/
-│   ├── extraction/         # Módulo de Extração
-│   ├── validation/         # Módulo de Validação
-│   ├── indexing/           # Módulo de Indexação
-│   ├── export/             # Módulo de Exportação
-│   ├── api/                # Módulo de API REST
-│   └── config/          # Configurações e arquivos auxiliares
-├── frontend/
-│   ├── components/         # Componentes React
-│   ├── pages/              # Páginas principais
-│   ├── services/           # Comunicação com a API REST
-│   ├── styles/             # Estilização
-│   └── locales/            # Arquivos de idioma
-├── docs/                   # Documentação do projeto
-├── tests/                  # Testes unitários e de integração
-└── docker/                 # Configurações para containerização
-```
-
-
-## 8. Prazos e Milestones
-- **Mês 1**:
-  - Configuração inicial.
-  - Implementação dos módulos de extração e validação.
-- **Mês 2**:
-  - Implementação dos módulos de indexação, exportação e API REST.
-- **Mês 3**:
-  - Desenvolvimento da interface web.
-  - Testes e refinamentos.
-
-
-## 9. Contato
-Para dúvidas ou sugestões, crie uma *issue* correspondente no presente projeto.
-
-
-## Onboarding
-
-- Visão geral do FHIR. O que você precisa fazer para colaborar com o projeto (30min).
-- Visão geral do projeto (30min).
-- Ambientação com FHIR e o projeto.
