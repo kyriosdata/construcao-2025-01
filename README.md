@@ -17,6 +17,18 @@ Opções:
 - [FHIR Guard](docs/fg.md)
 - [FHIR Unit Test](docs/fut.md)
 
+# Sprint 5 (25/04, 30/04 e 02/05)
+- (40% da aplicação implementada). Isso não significa
+que o código apresentado é definitivo, pois pode exigir
+refatoração, por exemplo, visando eliminar débito técnico.
+Neste ponto já devem ter sido abordados de forma prática, o
+que varia conforme a aplicação, vários temas como projeto
+detalhado, especificação de projeto, análise sintática (parsing),
+expressões regulares, parametrização (generics), closure,
+logging, configuração de software em tempo de execução.
+Internacionalização. Técnicas de construção baseadas em
+estado e tabelas. Naturalmente, conforme a demanda do trabalho em questão. 
+
 # Sprint 4 (16/04, 18/04 e 23/04)
 
 - Conclusão da arquitetura da aplicação. Os principais 
