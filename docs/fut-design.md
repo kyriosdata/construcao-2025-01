@@ -1,4 +1,4 @@
-# Diagrama de contexto
+# Visão de contexto
 
 ```mermaid
 flowchart TB
