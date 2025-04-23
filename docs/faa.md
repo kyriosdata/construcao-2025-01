@@ -101,7 +101,7 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
   - Status de validação.
   - Referências (artefatos referenciados ou referenciadores).
 
-### 3.4 Visualização de Grafo e estatísticas
+### 3.4 Visualização de grafo e estatísticas
 
 - Algumas estatísticas relevantes:
   - Total de artefatos por tipo (recurso)
@@ -119,7 +119,7 @@ O padrão FHIR, versão 4.0.1, está disponível [AQUI](https://hl7.org/fhir/R4/
   - **PNG**: grafo exibido
 
 ## 4. Arquitetura do Sistema
-### 4.1 Diagrama de Arquitetura Geral
+### 4.1 Visão conceitual
 ```mermaid
 graph TD
     A[Entrada de Artefatos] -->|Guias, .tgz, JSON| B[Módulo de Extração]
@@ -173,8 +173,8 @@ flowchart TD
    - Verificação de URLs e conformidade com o padrão FHIR.
 4. **Indexação**:
    - Organização dos metadados e mapeamento de relações.
-5. **Construção do Grafo**:
-   - Representação das relações entre artefatos.
+5. **Construção de grafo**:
+   - Representação gráfica das relações entre artefatos.
 6. **Saída**:
    - Geração de arquivos JSON e CSV.
 7. **Interface Web**:
