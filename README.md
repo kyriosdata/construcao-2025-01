@@ -17,7 +17,7 @@ Opções:
 - [FHIR Guard](docs/fg.md)
 - [FHIR Unit Test](docs/fut.md)
 
-# Sprint 5 (25/04, 30/04 e 02/05)
+# Sprint 5 (25/04, 30/04 e 09/05)
 - (40% da aplicação implementada). Isso não significa
 que o código apresentado é definitivo, pois pode exigir
 refatoração, por exemplo, visando eliminar débito técnico.
