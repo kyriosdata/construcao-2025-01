@@ -17,6 +17,14 @@ Opções:
 - [FHIR Guard](docs/fg.md)
 - [FHIR Unit Test](docs/fut.md)
 
+# Sprint 6 (07/05 ...)
+
+- Conforme o plano, deveríamos estar hoje, 14/05, na Sprint 6, contudo, o conteúdo dos
+repositórios está aquém desta expectativa. Precisamos fazer um realinhamento das
+Sprints planejadas da disciplina. E, sobretudo, identificar com clareza as lições
+aprendidas, por exemplo, a resposta para a seguinte pergunta pode ajudar a localizar
+as lições aprendidas: qual a origem desde "não alinhamento"?
+
 # Sprint 5 (25/04, 30/04 e 09/05)
 - (40% da aplicação implementada). Isso não significa
 que o código apresentado é definitivo, pois pode exigir
