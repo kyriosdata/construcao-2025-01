@@ -1,52 +1,61 @@
-# FHIR Guard (fg) Documentation
+# Documentação do FHIR Guard (fg)
 
-## Overview
-The `fg` command-line interface (CLI) is a tool for managing and running the FHIR Guard application. It provides a consistent and easy-to-use interface for installing, updating, starting, stopping, and monitoring different versions of this application. By default, `fg` operates in CLI mode, but a graphical interface can be launched by using the `gui` command.
+## Visão geral
+A interface de linha de comando (CLI) `fg` é uma ferramenta para gerenciar 
+e executar a aplicação FHIR Guard. Ela fornece uma interface consistente 
+e fácil de usar para instalar, atualizar, iniciar, parar e monitorar 
+diferentes versões desta aplicação. Por padrão, o `fg` opera no modo CLI, 
+mas uma interface gráfica pode ser iniciada usando o comando `gui`.
 
-## Getting Started
-Quick reference for common operations:
+## Primeiros passos
+Referência rápida para operações comuns:
 
-1. Install the latest version: `fg update`
-2. Start the application: `fg start`
-3. Check status: `fg status`
-4. View logs: `fg logs [pid]`
-5. Stop application: `fg stop [pid]`
+1. Instalar a versão mais recente (caso já não esteja disponível): `fg update`
+2. Iniciar a aplicação: `fg start`
+3. Verificar status: `fg status`
+4. Visualizar logs: `fg logs [pid]`
+5. Parar aplicação: `fg stop [pid]`
 
+## Requisitos
+- Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
+- Mínimo de RAM: 2GB
+- Armazenamento: 1GB
+- Rede: acesso HTTP(S) de saída
 
-## Requirements
-- Supported OS (latest versions of): Windows, macOS, Linux
-- Minimum RAM: 2GB
-- Storage: 1GB
-- Network: outbound HTTP(S) access
+## Opções globais
+- `--dir string`: especifica o diretório de trabalho (também pode ser definido através da variável de ambiente `FG_HOME`).
+  - Se `FG_HOME` não estiver definida e `--dir` não for um parâmetro fornecido, o diretório padrão será o diretório `.fg` no diretório *home* do usuário.
+- `--log-level string`: Define o nível de log para o CLI `fg` (`debug`, `info`, `warn`, `error`).
+  - Também pode ser definido através da variável de ambiente `FG_LOG_LEVEL`.
+- `--help, -h`: Exibe informações de ajuda para qualquer comando.
 
-## Global options
-- `--dir string`: specifies the working directory (can also be set via the `FG_HOME` environment variable).
-  - If `FG_HOME` is not set and `--dir` is not provided, the default directory will be the `.fg` directory in the user's home directory.
-- `--log-level string`: Sets the log level for the `fg` CLI (`debug`, `info`, `warn`, `error`).
-  - Can also be set via the `FG_LOG_LEVEL` environment variable.
-- `--help, -h`: Displays help information for any command.
+### Variáveis de ambiente
 
-The user's home directory can be identified using the commands below:
+| Variável de Ambiente | Descrição |
+|---------------------|-----------|
+| `FG_HOME` | Define o diretório de trabalho padrão. Se não definida, o diretório padrão será `.fg` no diretório *home* do usuário. |
+| `FG_LOG_LEVEL` | Define o nível de log. Valores aceitos: `debug`, `info`, `warn`, `error`. |
 
-| Operating System | Command to Display User's Home Directory |
+O diretório home do usuário pode ser identificado usando os comandos abaixo:
+
+| Sistema Operacional | Comando para Exibir o Diretório Home do Usuário |
 |------------------|------------------------------------------|
 | **Linux**        | `echo $HOME`                             |
 | **macOS**        | `echo $HOME`                             |
 | **Windows**      | `echo %USERPROFILE%`                     |
 
+## Comandos
 
-## Commands
-
-### Basic commands
+### Comandos básicos
 
 #### `fg available`
-- Lists all available FHIR Guard versions, regardless of what is installed in the working directory.
-- It shows their semantic versioning and release dates.
+- Lista todas as versões disponíveis do FHIR Guard, independentemente do que está instalado no diretório de trabalho.
+- Mostra suas versões semânticas e datas de lançamento.
 
-Example output:
+Exemplo de saída:
 
 ```plaintext
-Version     Release Date
+Versão     Data de Lançamento
 --------    ------------
 2.0.0       2024-04-05
 1.2.0       2024-03-10
@@ -55,211 +64,176 @@ Version     Release Date
 ```
 
 #### `fg gui`
-- Launches the graphical user interface.
-- The GUI provides access to all `fg` functionality through an interactive and graphical interface.
-- Success output: `Graphical interface started successfully.`
-- Error output (in red): `Failed to start graphical interface`. In this case, an error message is shown
-in the next line (in black).
+- Inicia a interface gráfica do usuário.
+- A GUI fornece acesso a toda a funcionalidade do `fg` através de uma interface interativa e gráfica.
+- Saída de sucesso: `Interface gráfica iniciada com sucesso.`
+- Saída de erro (em vermelho): `Falha ao iniciar interface gráfica`. Neste caso, uma mensagem de erro é mostrada
+na próxima linha (em preto).
 
-> **Note**: the GUI requires a graphical environment to be available on your system.
+> **Nota**: a GUI requer um ambiente gráfico disponível em seu sistema.
 
-### Installation management
+### Gerenciamento de instalação
 
-The FHIR Guard application is available in many versions. Each version is a collection of Java applications and files, each with an independent lifecycle and its own version. Each application has dependencies (jar files) and a specific JDK version on which it depends. This relationship can be illustrated as below.
+A aplicação FHIR Guard está disponível em muitas versões. Cada versão é uma coleção de aplicações Java e arquivos, cada um com um ciclo de vida independente e sua própria versão. Cada aplicação tem dependências (arquivos jar) e uma versão específica do JDK da qual depende. Esta relação pode ser ilustrada abaixo.
 
 ```mermaid
 graph LR
-    FHIR_Guard["FHIR Guard Application"] --> FG_V1["FHIR Guard v1"]
-    FHIR_Guard --> FG_Vn["FHIR Guard vN<br>details are not shown"]
+    FHIR_Guard["Aplicação FHIR Guard"] --> FG_V1["FHIR Guard v1"]
+    FHIR_Guard --> FG_Vn["FHIR Guard vN<br>detalhes não mostrados"]
 
     subgraph FG_V1_Details [" "]
-        FG_V1 --> FG1_App1["Java Application v1<br>(parameters to start)"]
-        FG_V1 --> FG1_App2["Java Application vJ<br>(details are not shown)"]
-        FG_V1 --> FG1_File1["File 1<br>URL for download and<br>local name"]
-        FG_V1 --> FG1_FileN["File F<br>details not shown"]
+        FG_V1 --> FG1_App1["Aplicação Java v1<br>(parâmetros para iniciar)"]
+        FG_V1 --> FG1_App2["Aplicação Java vJ<br>(detalhes não mostrados)"]
+        FG_V1 --> FG1_File1["Arquivo 1<br>URL para download e<br>nome local"]
+        FG_V1 --> FG1_FileN["Arquivo F<br>detalhes não mostrados"]
         
         subgraph FG1_App1_Details [" "]
-            FG1_App1 --> FG1_App1_Dependencies["Dependency 1 (jar file)<br>URL for download<br>and local name"]
-            FG1_App1 --> FG1_App2_Dependencies["Dependency k (jar file)<br>URL for download"]
-            FG1_App1 --> FG1_App1_JDK["Specific JDK Version<br>URL for download"]
+            FG1_App1 --> FG1_App1_Dependencies["Dependência 1 (arquivo jar)<br>URL para download<br>e nome local"]
+            FG1_App1 --> FG1_App2_Dependencies["Dependência k (arquivo jar)<br>URL para download"]
+            FG1_App1 --> FG1_App1_JDK["Versão Específica do JDK<br>URL para download"]
         end
     end
 ```
 
-#### `fg install [version]`
-- Installs a specific version of the FHIR Guard application.
-- Supports semantic versioning only: `x.y.z` (e.g., `1.0.0`, `2.1.3`).
-- Creates a default configuration file located at `$FG_HOME/[version]/config.yaml`.
-- Success output (in green): `Version [version] installed successfully`.
-- Error output (in red): `Failed to install version [version]: [error reason]`.
+#### `fg install [versão]`
+- Instala uma versão específica da aplicação FHIR Guard.
+- Suporta apenas versionamento semântico: `x.y.z` (ex: `1.0.0`, `2.1.3`).
+- Cria um arquivo de configuração padrão localizado em `$FG_HOME/[versão]/config.yaml`.
+- Saída de sucesso (em verde): `Versão [versão] instalada com sucesso`.
+- Saída de erro (em vermelho): `Falha ao instalar versão [versão]: [motivo do erro]`.
 
 #### `fg update`
-- Checks if a newer version is available than the most recent in `$FG_HOME/`.
-- If a newer version exists, downloads, installs it and sets it as the current default.
-- Displays:
-  - Success output (in green): `Updated to version [new version]. This is now the default version.`
-  - No update available: `No newer version available. You have available the latest version: [current version].`
-  - Error output (in red): `Failed to update: [error reason]`
+- Verifica se existe uma versão mais recente do que a mais recente em `$FG_HOME/`.
+- Se uma versão mais recente existir, baixa, instala e define como a versão padrão atual.
+- Exibe:
+  - Saída de sucesso (em verde): `Atualizado para versão [nova versão]. Esta é agora a versão padrão.`
+  - Nenhuma atualização disponível: `Nenhuma versão mais recente disponível. Você tem disponível a versão mais recente: [versão atual].`
+  - Saída de erro (em vermelho): `Falha ao atualizar: [motivo do erro]`
 
-> **Note**: internet connectivity is required for the update process to check for and download new versions.
+> **Nota**: conectividade com a internet é necessária para o processo de atualização verificar e baixar novas versões.
 
-#### `fg uninstall [version]`
-- Removes a specific version of the application.
-- Requires confirmation: `"Confirm uninstallation of version [version]? (y/N)"`
-- Cannot uninstall a running version
-- Success output (in green): `"Version [version] uninstalled successfully"`
-- Error output (in red): `"Failed to uninstall version [version]: [error reason]"`
+#### `fg uninstall [versão]`
+- Remove uma versão específica da aplicação.
+- Requer confirmação: `"Confirmar desinstalação da versão [versão]? (s/N)"`
+- Não pode desinstalar uma versão em execução
+- Saída de sucesso (em verde): `"Versão [versão] desinstalada com sucesso"`
+- Saída de erro (em vermelho): `"Falha ao desinstalar versão [versão]: [motivo do erro]"`
 
 #### `fg list`
-- Shows all installed versions of the application.
-- The most recent installed version is automatically set as the default and marked with an asterisk (*).
+- Mostra todas as versões instaladas da aplicação.
+- A versão instalada mais recente é automaticamente definida como padrão e marcada com um asterisco (*).
 
-Example output:
+Exemplo de saída:
   ```plaintext
-  Installed versions:
-  * 1.1.0 (default - most recent)
+  Versões instaladas:
+  * 1.1.0 (padrão - mais recente)
     1.0.0
     0.9.0
   ```
 
-#### `fg config [version]`
-- Displays (read-only) the detailed configuration for a specific version.
-- Configuration can only be modified by manually editing the source YAML file located at `$FG_HOME/[version]/config.yaml`.
+#### `fg config [versão]`
+- Exibe (somente leitura) a configuração detalhada para uma versão específica.
+- A configuração só pode ser modificada editando manualmente o arquivo YAML fonte localizado em `$FG_HOME/[versão]/config.yaml`.
 
-Example output:
+Exemplo de saída:
   ```plaintext
-  Configuration for version 1.1.0:
-  Source file: /home/user/.fg/versions/1.1.0/config.yaml
+  Configuração para versão 1.1.0:
+  Arquivo fonte: /home/usuario/.fg/versions/1.1.0/config.yaml
   
-  Current settings (read-only):
-  Server:
+  Configurações atuais (somente leitura):
+  Servidor:
     - Host: 0.0.0.0
-    - Port: 8080
-    - Read Timeout: 30s
-    - Write Timeout: 30s
+    - Porta: 8080
+    - Timeout de Leitura: 30s
+    - Timeout de Escrita: 30s
   
-  Security:
-    - TLS: enabled
-    - Auth: enabled
-    - JWT Expiry: 24h
+  Segurança:
+    - TLS: habilitado
+    - Autenticação: habilitada
+    - Expiração JWT: 24h
   
-  Resources:
-    - Max Memory: 1024MB
-    - Max CPU: 2
+  Recursos:
+    - Memória Máxima: 1024MB
+    - CPU Máxima: 2
     - Workers: 10
   
   [...]
   
-  To modify these settings, edit the YAML file directly.
-  See Configuration Reference for all available options.
+  Para modificar estas configurações, edite o arquivo YAML diretamente.
+  Veja a Referência de Configuração para todas as opções disponíveis.
   ```
 
-### Application control
+### Controle da aplicação
 
-#### `fg start [version]`
-- Starts a specific version of the application (must be installed first).
-- Validates configuration before startup
-- Success output (in green): `"Application started successfully. PID: 1234"`
-- Error output (in red): `"Failed to start version [version]: [error reason]"`
+#### `fg start [versão]`
+- Inicia uma versão específica da aplicação (deve estar instalada primeiro).
+- Valida a configuração antes da inicialização
+- Saída de sucesso (em verde): `"Aplicação iniciada com sucesso. PID: 1234"`
+- Saída de erro (em vermelho): `"Falha ao iniciar versão [versão]: [motivo do erro]"`
 
 #### `fg stop [pid]`
-- Stops a running instance of the application.
-- PID can be obtained from the `fg status` command.
-- Graceful shutdown with 10s timeout by default
-- Success output (in green): `"Application instance (PID: 1234) stopped successfully"`
-- Error output (in red): `"Failed to stop instance: [error reason]"`
+- Para uma instância em execução da aplicação.
+- PID pode ser obtido do comando `fg status`.
+- Encerramento gracioso com timeout de 10s por padrão
+- Saída de sucesso (em verde): `"Instância da aplicação (PID: 1234) parada com sucesso"`
+- Saída de erro (em vermelho): `"Falha ao parar instância: [motivo do erro]"`
 
-### Monitoring and diagnostics
+### Monitoramento e diagnóstico
 
 #### `fg status`
-- Shows the current status of all running instances of the application.
-- Includes details like PID, version, port, uptime, memory usage, CPU usage, and number of tasks.
-- Example output:
+- Mostra o status atual de todas as instâncias em execução da aplicação.
+- Inclui detalhes como PID, versão, porta, tempo de atividade, uso de memória, uso de CPU e número de tarefas.
+- Exemplo de saída:
   ```plaintext
-  PID     Version  Port   Uptime   Memory   CPU   Tasks
-  1234    1.1.0    8080   2h       256MB    2%    10
-  5678    1.0.0    8081   30m      128MB    1%    5
+  PID     Versão  Porta   Tempo Ativo   Memória   CPU   Tarefas
+  1234    1.1.0    8080   2h           256MB     2%    10
+  5678    1.0.0    8081   30m          128MB     1%    5
   ```
 
 #### `fg logs [pid]`
-- Displays the logs for a specific running instance.
-- Supports options:
-  - `--tail <n>`: Shows the last `n` lines of the logs.
-  - `--follow`: Follows the log output in real-time.
-- Logs are stored in the location specified in the `config.yaml` file.
+- Exibe os logs para uma instância em execução específica.
+- Suporta opções:
+  - `--tail <n>`: Mostra as últimas `n` linhas dos logs.
+  - `--follow`: Acompanha a saída do log em tempo real.
+- Os logs são armazenados no local especificado no arquivo `config.yaml`.
 
-## Configuration
+## Configuração
 
-See separate configuration reference for complete details on available settings. Configuration file is located at:
-`$FG_HOME/versions/[version]/config.yaml`
+Veja a referência de configuração separada para detalhes completos sobre as configurações disponíveis. O arquivo de configuração está localizado em:
+`$FG_HOME/versions/[versão]/config.yaml`
 
-Key configuration sections:
-- Server settings (host, port, timeouts)
-- Security (TLS, authentication)
-- Logging configuration
-- Resource limits
-- Storage settings
-- Cache configuration
-- Monitoring options
-- Cleanup policies
+Seções principais de configuração:
+- Configurações do servidor (host, porta, timeouts)
+- Segurança (TLS, autenticação)
+- Configuração de logging
+- Limites de recursos
+- Configurações de armazenamento
+- Configuração de cache
+- Opções de monitoramento
+- Políticas de limpeza
 
-## Installation instructions
+## Instruções de instalação
 
 ### Windows
-1. Download the `fg` binary and place it in your desired directory
-2. Add installation directory to PATH
-3. Verify installation with `fg --version`
+1. Baixe o binário `fg` e coloque-o no diretório desejado
+2. Adicione o diretório de instalação ao PATH
+3. Verifique a instalação com `fg --version`
 
 ### Linux/macOS
-1. Download the `fg` binary and place it in your desired directory.
-2. Ensure `fg` is in your PATH by adding `export PATH=$PATH:/path/to/fg` to your shell configuration
-3. Make binary executable: `chmod +x fg`
-4. Verify installation with `fg --version`
+1. Baixe o binário `fg` e coloque-o no diretório desejado.
+2. Certifique-se de que `fg` está no seu PATH adicionando `export PATH=$PATH:/caminho/para/fg` à sua configuração de shell
+3. Torne o binário executável: `chmod +x fg`
+4. Verifique a instalação com `fg --version`
 
-## Usage examples
-- Launch GUI mode: `fg gui`. Starts graphical and produces at console
-  `Graphical interface started successfully.`
-- List all versions installed and local of installation: `fg list`
-- Install a specific version: `fg install 1.0.0`
-- Check for updates: `fg update`
-- Show configuration for version 1.0.0: `fg config 1.0.0`
-- Start the application: `fg start 1.0.0`
-  - Output: `"Application started successfully. PID: 1234"`
-- Check the status of running instances: `fg status`
-- Monitor the logs for a specific instance: `fg logs 1234 --tail 100`
-- Stop a running instance: `fg stop 1234`
-  - Output: `"Application instance (PID: 1234) stopped successfully"`
-- Uninstall a version: `fg uninstall 1.0.0`
-
-## Error handling
-- All commands will return non-zero exit codes on failure
-- Error messages are printed to stderr in red
-- Use `--help` with any command for additional information
-
-### Common errors and solutions
-1. Version not found
-  - Check available versions with `fg available`
-  - Verify correct version format (x.y.z)
-
-2. Invalid version format
-  - Use semantic versioning (e.g., 1.0.0)
-
-3. Instance not running
-  - Verify PID with `fg status`
-  - Check logs for startup errors
-
-4. Permission denied
-  - Run with appropriate privileges
-  - Check file permissions in installation directory
-
-5. Port already in use
-  - Modify port in config.yaml
-  - Check for other running instances
-
-6. Insufficient memory/resources
-  - Adjust resource limits in config.yaml
-  - Check system resources with `fg status`
-
-## Environment variables
-- `FG_HOME`: default installation directory (if not provided, defaults to `.fg` in the user's home directory)
-- `FG_LOG_LEVEL`: Log level (debug, info, warn, error) for the `fg` CLI
+## Exemplos de uso
+- Iniciar modo GUI: `fg gui`. Inicia a interface gráfica e produz no console
+  `Interface gráfica iniciada com sucesso.`
+- Listar todas as versões instaladas e local de instalação: `fg list`
+- Instalar uma versão específica: `fg install 1.0.0`
+- Verificar atualizações: `fg update`
+- Mostrar configuração para versão 1.0.0: `fg config 1.0.0`
+- Iniciar a aplicação: `fg start 1.0.0`
+  - Saída: `"Aplicação iniciada com sucesso. PID: 1234"`
+- Verificar o status das instâncias em execução: `fg status`
+- Monitorar os logs para uma instância específica: `fg logs 1234 --tail 100`
+- Parar uma instância em execução: `
