@@ -19,7 +19,7 @@ flowchart TB
     end
 
     subgraph "Recursos Externos"
-        registry["📦 Registro de Versões<br>(Atualizações)"]
+        registry["📦 Registro de Versões<br>(Histórico de Atualizações)"]
         jdk["☕ JDK<br>(Dependência)"]
         deps["📚 Dependências<br>(arquivos .jar)"]
     end

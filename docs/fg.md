@@ -16,7 +16,7 @@ Referência rápida para operações comuns:
 4. Visualizar logs: `fg logs [pid]`
 5. Parar aplicação: `fg stop [pid]`
 
-## Requisitos
+## Requisitos de operação
 - Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
 - Mínimo de RAM: 2GB
 - Armazenamento: 1GB
@@ -49,18 +49,38 @@ O diretório home do usuário pode ser identificado usando os comandos abaixo:
 ### Comandos básicos
 
 #### `fg available`
-- Lista todas as versões disponíveis do FHIR Guard, independentemente do que está instalado no diretório de trabalho.
-- Mostra suas versões semânticas e datas de lançamento.
+- Lista todas as versões disponíveis, independentemente do que está instalado localmente. Depende de acesso à internet para recuperação de arquivo contendo a descrição das versões disponíveis.
+- Mostra as versões e, para cada uma delas, a data de lançamento.
 
 Exemplo de saída:
 
 ```plaintext
-Versão     Data de Lançamento
---------    ------------
-2.0.0       2024-04-05
-1.2.0       2024-03-10
-1.1.0       2024-02-22
-1.0.0       2024-01-15
+Versão      Data        JDK
+------      ----------  ---
+2.0.0       2024-04-05  24
+1.2.0       2024-03-10  17
+1.1.0       2024-02-22  11
+1.0.0       2024-01-15  8
+```
+
+Para esta saída acima, um documento JSON parcial, tendo em vista que há 
+outras operações (comandos) a serem atendidas, seria:
+
+```plaintext
+{
+  "versoes" : [
+    {
+      "versao" : "2.0.0",
+      "data" : "2024-04-05,
+      "jdk" : "24"
+    },
+    {
+      "versao" : "1.2.0",
+      "data" : "2024-03-10,
+      "jdk" : "17"
+    }
+  ]
+}
 ```
 
 #### `fg gui`
