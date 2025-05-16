@@ -8,7 +8,7 @@ flowchart TB
     end
 
     subgraph "FHIR Guard CLI (fg)"
-        cli[("CLI fg<br>Gerenciamento e Controle")]
+        cli["Gerente<br>Gerenciamento e Controle"]
         gui["Interface Gráfica<br>(fg gui)"]
     end
 
@@ -18,7 +18,7 @@ flowchart TB
         logs["Logs do Sistema"]
     end
 
-    subgraph "Recursos Externos"
+    subgraph "Recursos Externos (depósitos)"
         registry["📦 Registro de Versões<br>(Histórico de Atualizações)"]
         jdk["☕ JDK<br>(Dependência)"]
         deps["📚 Dependências<br>(arquivos .jar)"]
