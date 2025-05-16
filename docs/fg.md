@@ -64,7 +64,7 @@ Versão      Data        JDK
 ```
 
 Para esta saída acima, um documento JSON parcial, tendo em vista que há 
-outras operações (comandos) a serem atendidas, seria:
+outras operações (comandos) não atendidas, seria:
 
 ```plaintext
 {
@@ -94,7 +94,29 @@ na próxima linha (em preto).
 
 ### Gerenciamento de instalação
 
-A aplicação FHIR Guard está disponível em muitas versões. Cada versão é uma coleção de aplicações Java e arquivos, cada um com um ciclo de vida independente e sua própria versão. Cada aplicação tem dependências (arquivos jar) e uma versão específica do JDK da qual depende. Esta relação pode ser ilustrada abaixo.
+A aplicação FHIR Guard está disponível em muitas versões. 
+Cada versão é uma coleção de aplicações Java e arquivos, cada um com um ciclo de vida independente 
+e sua própria versão. Cada aplicação é composta por arquivos jar e outros. Em particular, 
+pode ser executada pelo JDK indicado em cada versão. 
+Ou seja, à estrutura indicada acima (documento JSON), pode ser acrescentado o
+elemento `apps`, um vetor de objetos onde cada objeto segue a estrutura
+abaixo:
+
+```plaintext
+{
+  "nome" : "validador",
+  "versao" : "2.3.4",
+  "jars" : [
+      "https://github.com/deposito/dependencias/config-test-0.1.2.jar"
+  ],
+  "arquivos" : [
+      "https://servidor.com/teste.txt",
+      "http://x.com/bd/2025/aten-84"
+  ]
+}
+```
+
+Esta relação pode ser ilustrada abaixo.
 
 ```mermaid
 graph LR
