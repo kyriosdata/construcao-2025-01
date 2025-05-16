@@ -13,9 +13,9 @@ ao padrão [FHIR](https://hl7.org/fhir/R4). FHIR é um padrão para troca de dad
 
 Opções:
 
-- [FHIR Artifact Analyser](docs/faa.md)
-- [FHIR Guard](docs/fg.md)
-- [FHIR Unit Test](docs/fut.md)
+- [FHIR Artifact Analyser](docs/faa.md) ([design preliminar](docs/faa-design.md))
+- [FHIR Guard](docs/fg.md) ([design preliminar](docs/fg-design.md))
+- [FHIR Unit Test](docs/fut.md) ([design preliminar](docs/fut-design.md))
 
 # Sprint 6 (07/05 ...)
 
