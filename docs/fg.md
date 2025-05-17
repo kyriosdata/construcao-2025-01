@@ -110,19 +110,25 @@ abaixo:
       "data": "2025-03-23",
       "jdk": {
         "nome": "21",
-        "tgz": "https://tgz.com/jdk_21-2.3.tgz"
+        "plataformas": {
+          "win":   "https://tgz.com/jdk_21-2.3_windows.tgz",
+          "mac":   "https://tgz.com/jdk_21-2.3_macos.tgz",
+          "linux": "https://tgz.com/jdk_21-2.3_linux.tgz"
+        }
       },
       "apps": [
         {
           "nome": "validador",
+          "descricao": "Aplicação de validação de configurações",
           "versao": "2.3.4",
-          "jars": [
-            "https://github.com/deps/config-test-0.1.2.jar"
+          "dependencias": [
+            "https://github.com/deposito/dependencias/config-0.1.2.jar"
           ],
           "arquivos": [
             "https://servidor.com/teste.txt",
-            "http://x.com/bd/2025/aten-84"
-          ]
+            "https://x.com/bd/2025/aten-84.bin"
+          ],
+          "comando": "java -jar config-0.1.2.jar -f teste.txt -bin aten-84.bin"
         }
       ]
     }
