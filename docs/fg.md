@@ -104,14 +104,28 @@ abaixo:
 
 ```plaintext
 {
-  "nome" : "validador",
-  "versao" : "2.3.4",
-  "jars" : [
-      "https://github.com/deposito/dependencias/config-test-0.1.2.jar"
-  ],
-  "arquivos" : [
-      "https://servidor.com/teste.txt",
-      "http://x.com/bd/2025/aten-84"
+  "versoes": [
+    {
+      "versao": "1.2.3",
+      "data": "2025-03-23",
+      "jdk": {
+        "nome": "21",
+        "tgz": "https://tgz.com/jdk_21-2.3.tgz"
+      },
+      "apps": [
+        {
+          "nome": "validador",
+          "versao": "2.3.4",
+          "jars": [
+            "https://github.com/deps/config-test-0.1.2.jar"
+          ],
+          "arquivos": [
+            "https://servidor.com/teste.txt",
+            "http://x.com/bd/2025/aten-84"
+          ]
+        }
+      ]
+    }
   ]
 }
 ```
