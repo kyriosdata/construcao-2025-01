@@ -128,7 +128,8 @@ abaixo:
             "https://servidor.com/teste.txt",
             "https://x.com/bd/2025/aten-84.bin"
           ],
-          "comando": "java -jar config-0.1.2.jar -f teste.txt -bin aten-84.bin"
+          "comando": "java -jar config-0.1.2.jar -f teste.txt -bin aten-84.bin",
+          "logs" : "config.log"
         }
       ]
     }
@@ -191,38 +192,6 @@ Exemplo de saída:
   * 1.1.0 (padrão - mais recente)
     1.0.0
     0.9.0
-  ```
-
-#### `fg config [versão]`
-- Exibe (somente leitura) a configuração detalhada para uma versão específica.
-- A configuração só pode ser modificada editando manualmente o arquivo YAML fonte localizado em `$FG_HOME/[versão]/config.yaml`.
-
-Exemplo de saída:
-  ```plaintext
-  Configuração para versão 1.1.0:
-  Arquivo fonte: /home/usuario/.fg/versions/1.1.0/config.yaml
-  
-  Configurações atuais (somente leitura):
-  Servidor:
-    - Host: 0.0.0.0
-    - Porta: 8080
-    - Timeout de Leitura: 30s
-    - Timeout de Escrita: 30s
-  
-  Segurança:
-    - TLS: habilitado
-    - Autenticação: habilitada
-    - Expiração JWT: 24h
-  
-  Recursos:
-    - Memória Máxima: 1024MB
-    - CPU Máxima: 2
-    - Workers: 10
-  
-  [...]
-  
-  Para modificar estas configurações, edite o arquivo YAML diretamente.
-  Veja a Referência de Configuração para todas as opções disponíveis.
   ```
 
 ### Controle da aplicação
