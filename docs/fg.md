@@ -11,10 +11,10 @@ mas uma interface gráfica pode ser iniciada usando o comando `gui`.
 Referência rápida para operações comuns:
 
 1. Instalar a versão mais recente (caso já não esteja disponível): `fg update`
-2. Iniciar a aplicação: `fg start`
+2. Iniciar a aplicação: `fg start [nome]`
 3. Verificar status: `fg status`
-4. Visualizar logs: `fg logs [pid]`
-5. Parar aplicação: `fg stop [pid]`
+4. Visualizar logs: `fg logs [nome]`
+5. Parar aplicação: `fg stop [nome]`
 
 ## Requisitos de operação
 - Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
@@ -24,9 +24,7 @@ Referência rápida para operações comuns:
 
 ## Opções globais
 - `--dir string`: especifica o diretório de trabalho (também pode ser definido através da variável de ambiente `FG_HOME`).
-  - Se `FG_HOME` não estiver definida e `--dir` não for um parâmetro fornecido, o diretório padrão será o diretório `.fg` no diretório *home* do usuário.
-- `--log-level string`: Define o nível de log para o CLI `fg` (`debug`, `info`, `warn`, `error`).
-  - Também pode ser definido através da variável de ambiente `FG_LOG_LEVEL`.
+  - Se `FG_HOME` não estiver definida e `--dir` não for um parâmetro fornecido, o diretório padrão será o diretório `.fg` no diretório *home* do usuário (será criado, se necessário).
 - `--help, -h`: Exibe informações de ajuda para qualquer comando.
 
 ### Variáveis de ambiente
@@ -63,21 +61,19 @@ Versão      Data        JDK
 1.0.0       2024-01-15  8
 ```
 
-Para esta saída acima, um documento JSON parcial, tendo em vista que há 
-outras operações (comandos) não atendidas, seria:
+Para esta saída acima, um documento JSON parcial, ilustrando
+apenas parte das duas primeiras versões disponíveis seria:
 
 ```plaintext
 {
   "versoes" : [
     {
       "versao" : "2.0.0",
-      "data" : "2024-04-05,
-      "jdk" : "24"
+      "data" : "2024-04-05"
     },
     {
       "versao" : "1.2.0",
-      "data" : "2024-03-10,
-      "jdk" : "17"
+      "data" : "2024-03-10"
     }
   ]
 }
@@ -109,7 +105,7 @@ abaixo:
       "versao": "1.2.3",
       "data": "2025-03-23",
       "jdk": {
-        "nome": "21",
+        "versao": "21",
         "plataformas": {
           "win":   "https://tgz.com/jdk_21-2.3_windows.tgz",
           "mac":   "https://tgz.com/jdk_21-2.3_macos.tgz",
@@ -161,7 +157,6 @@ graph LR
 #### `fg install [versão]`
 - Instala uma versão específica da aplicação FHIR Guard.
 - Suporta apenas versionamento semântico: `x.y.z` (ex: `1.0.0`, `2.1.3`).
-- Cria um arquivo de configuração padrão localizado em `$FG_HOME/[versão]/config.yaml`.
 - Saída de sucesso (em verde): `Versão [versão] instalada com sucesso`.
 - Saída de erro (em vermelho): `Falha ao instalar versão [versão]: [motivo do erro]`.
 
@@ -196,18 +191,18 @@ Exemplo de saída:
 
 ### Controle da aplicação
 
-#### `fg start [versão]`
+#### `fg start [nome]`
 - Inicia uma versão específica da aplicação (deve estar instalada primeiro).
 - Valida a configuração antes da inicialização
-- Saída de sucesso (em verde): `"Aplicação iniciada com sucesso. PID: 1234"`
-- Saída de erro (em vermelho): `"Falha ao iniciar versão [versão]: [motivo do erro]"`
+- Saída de sucesso (em verde): `Aplicação iniciada com sucesso. PID: 1234`
+- Saída de erro (em vermelho): `Falha ao iniciar a aplicação [nome]: [motivo do erro]`
 
-#### `fg stop [pid]`
-- Para uma instância em execução da aplicação.
-- PID pode ser obtido do comando `fg status`.
-- Encerramento gracioso com timeout de 10s por padrão
-- Saída de sucesso (em verde): `"Instância da aplicação (PID: 1234) parada com sucesso"`
-- Saída de erro (em vermelho): `"Falha ao parar instância: [motivo do erro]"`
+#### `fg stop [nome]`
+- Interrompe a execução da aplicação nomeada.
+- O nome da aplicação pode ser obtido do comando `fg status`.
+- Encerramento com timeout de 10s por padrão
+- Saída de sucesso (em verde): `Instância da aplicação (PID: 1234) parada com sucesso`
+- Saída de erro (em vermelho): `Falha ao parar instância: [motivo do erro]`
 
 ### Monitoramento e diagnóstico
 
@@ -221,27 +216,12 @@ Exemplo de saída:
   5678    1.0.0    8081   30m          128MB     1%    5
   ```
 
-#### `fg logs [pid]`
-- Exibe os logs para uma instância em execução específica.
+#### `fg logs [nome]`
+- Exibe os logs da aplicação nomeada
 - Suporta opções:
   - `--tail <n>`: Mostra as últimas `n` linhas dos logs.
   - `--follow`: Acompanha a saída do log em tempo real.
 - Os logs são armazenados no local especificado no arquivo `config.yaml`.
-
-## Configuração
-
-Veja a referência de configuração separada para detalhes completos sobre as configurações disponíveis. O arquivo de configuração está localizado em:
-`$FG_HOME/versions/[versão]/config.yaml`
-
-Seções principais de configuração:
-- Configurações do servidor (host, porta, timeouts)
-- Segurança (TLS, autenticação)
-- Configuração de logging
-- Limites de recursos
-- Configurações de armazenamento
-- Configuração de cache
-- Opções de monitoramento
-- Políticas de limpeza
 
 ## Instruções de instalação
 
@@ -262,9 +242,8 @@ Seções principais de configuração:
 - Listar todas as versões instaladas e local de instalação: `fg list`
 - Instalar uma versão específica: `fg install 1.0.0`
 - Verificar atualizações: `fg update`
-- Mostrar configuração para versão 1.0.0: `fg config 1.0.0`
-- Iniciar a aplicação: `fg start 1.0.0`
-  - Saída: `"Aplicação iniciada com sucesso. PID: 1234"`
+- Iniciar a aplicação: `fg start validador`
+  - Saída: `Aplicação iniciada com sucesso. PID: 1234`
 - Verificar o status das instâncias em execução: `fg status`
-- Monitorar os logs para uma instância específica: `fg logs 1234 --tail 100`
-- Parar uma instância em execução: `
+- Monitorar os logs para uma instância específica: `fg logs validador`
+- Parar uma instância em execução: `fg stop validador`
