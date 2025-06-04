@@ -1,73 +1,49 @@
-# FHIRUT - FHIR Unit Test Suite
+FHIRUT - FHIR Unit Test Suite  
+Este documento descreve o FUT, uma ferramenta para automatizar testes de conformidade de instâncias de recursos FHIR.
 
-Este documento descreve FUT, uma ferramenta para automatizar testes de conformidade 
-de instâncias de recursos FHIR. 
+Contexto  
+O FHIR é um padrão flexível, o que torna a verificação de conformidade um processo complexo. Felizmente, essa complexidade conta com o apoio de ferramentas, incluindo o validator_cli.jar, a ferramenta oficial recomendada pela HL7 para tal operação.
 
-## Contexto
+Abaixo segue um exemplo de como essa ferramenta pode ser empregada:
 
-FHIR é um padrão flexível, o que torna a verificação de conformidade um processo complexo. 
-Felizmente, a complexidade da verificação conta com o apoio de ferramentas, 
-inclusive o *validator_cli.jar*, a ferramenta oficial recomendada pela HL7 para tal operação.
+java -jar validator_cli.jar -version 4.0.1 -output output.json input.json  
+produz uma instância do recurso OperationOutcome, depositada no arquivo output.json, contendo o resultado da avaliação da instância contida no arquivo input.json. Para mais informações sobre o uso do validador, consulte a documentação disponível.
 
-Abaixo segue um exemplo de como esta ferramenta pode ser empregada:
-```
-java -jar validator_cli.jar -version 4.0.1 -output output.json input.json
-```
+Em essência, o objetivo deste projeto é criar uma solução que receba múltiplas entradas (instâncias) de recursos a serem validadas, bem como as expectativas correspondentes. A solução requisita a validação de cada uma delas, recupera os resultados, compara com as expectativas também fornecidas e apresenta os resultados em formato de "fácil consumo" para o usuário final.
 
-produz uma instância do recurso [OperationOutcome](https://hl7.org/fhir/R4/operationoutcome.html), depositada no arquivo *output.json*, contendo o resultado da avaliação da instância contida no arquivo *input.json*. Para mais informações sobre o uso do validador, consulte a [documentação](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) disponível.
+Visão geral  
+O FUT é uma ferramenta projetada para simplificar e automatizar o processo de validação de instâncias de recursos FHIR. Um caso de uso típico é o suporte ao desenvolvimento de Guias de Implementação. Neste cenário, o desenvolvedor de um guia de implementação define casos de teste em conformidade com os perfis fornecidos (artefatos de conformidade) e verifica se instâncias de recursos atendem a tais artefatos. A ferramenta é inspirada no conceito do JUnit, mas adaptada ao contexto do FHIR.
 
-Em essência, o objetivo deste projeto é criar uma solução que receba múltiplas entradas (instâncias) de recursos a serem validadas, bem como as expectativas correspondentes, a solução requisita a validação de cada uma delas, recupera os resultados, compara com as expectativas também fornecidas, e apresenta
-os resultados em formato de "fácil consumo" para o usuário final.
+Ilustração de usos  
+Sem argumentos  
+fut  
+Executa todos os testes contidos no diretório corrente. Os testes são definidos por arquivos com a extensão .yaml.
 
-## Visão geral
+Indicação específica de teste a ser executado  
+fut teste/x.yml y.yml  
+Executa o teste registrado no arquivo x.yml, contido no diretório teste, e o teste em y.yml contido no diretório corrente.
 
-FUT é uma ferramenta projetada para simplificar e automatizar o processo de validação de 
-instâncias de recursos FHIR. Um caso de uso típico é o suporte ao desenvolvimento de Guias de Implementação. Neste cenário, o desenvolvedor de um guia de implementação 
-define casos de teste em conformidade com os perfis fornecidos (artefatos de conformidade) e verifica se instâncias de recursos atendem tais artefatos. A ferramenta é inspirada no conceito do JUnit, mas adaptada ao contexto do FHIR.
+Vários testes  
+fut patient-*.yml  
+Executa todos os testes disponíveis no diretório corrente cujos arquivos têm como prefixo patient- e sufixo .yml.
 
-## Ilustração de usos
+Componentes  
+- Casos de teste: unidades de teste individuais, contendo a definição do contexto (artefatos de conformidade), a instância a ser validada e os resultados esperados.
+- Máquina de execução de testes: o componente responsável por requisitar a execução dos testes, tarefa a ser realizada pelo validador FHIR oficial (veja documentação).
+- Comparador de resultados: o componente que compara os resultados obtidos, fornecidos pelo validador, com os resultados esperados.
+- Gerador de relatórios: o componente que gera relatórios detalhados e visualmente atrativos dos resultados dos testes (comparação do esperado com o obtido).
 
-### Nenhum argumento
-
-**fut**
-Executa todos os testes contidos no diretório corrente. Os testes são definidos
-por arquivos com a extensão .yaml.
-
-### Indicação específica de teste a ser executado
-
-**fut teste/x.yml y.yml**
-Executa o teste registrado no arquivo **x.yml**, contido no diretório **teste**,
-e o teste em **y.yml** contido no diretório corrente.
-
-### Vários testes
-
-**fut patient-*.yml**
-Executa todos os testes disponíveis no diretório corrente 
-cujos arquivos têm como prefixo **patient-** e sufixo **.yml**.
-
-## Componentes
-
-1. Casos de teste: unidades de teste individuais, contendo a definição do contexto (artefatos de conformidade), a instância a ser validada e os resultados esperados.
-
-2. Máquina de execução de testes: o componente responsável por requisitar a execução dos testes, tarefa a ser realizada pelo validador FHIR oficial (veja [documentação](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator)).
-
-3. Comparador de resultados: o componente que compara os resultados obtidos, fornecidos pelo validador, com os resultados esperados.
-
-4. Gerador de relatórios: o componente que gera relatórios detalhados e visualmente atrativos dos resultados dos testes (comparação do esperado com o obtido).
-
-## 1. Definição de caso de teste
-
-Um caso de teste pode ser definido por meio de um arquivo YAML, por exemplo,
-conforme a estrutura fornecida abaixo:
+1. Definição de caso de teste  
+Um caso de teste pode ser definido por meio de um arquivo YAML, por exemplo, conforme a estrutura fornecida abaixo:
 
 ```yaml
-test_id: Patient-001  # Identificador único do caso de teste. 
+test_id: Patient-001  # Identificador único do caso de teste.
 description: Nome do paciente não é fornecido. # Descrição do caso de teste
-context:  # Define com o que a instância deve estar em conformidade com
+context:  # Define com o que a instância deve estar em conformidade
   igs:  # Lista de guias de implementação a serem utilizados
     - br.go.ses.core#0.0.1
   profiles:  # Perfis a serem utilizados na validação
-    - https://fhir.saude.go.gov.br/r4/core/StructureDefinition/individuo 
+    - https://fhir.saude.go.gov.br/r4/core/StructureDefinition/individuo
   resources:  # Instâncias adicionais de recursos de conformidade
     - valuesets/my-valueset.json  # Arquivo específico
     - instancias/ # todos os artefatos de conformidade contidos neste diretório
@@ -77,54 +53,44 @@ instance_path: instances/patient_example.json  # Instância a ser validada
 # 2. <test_id>.json
 
 expected_results:  # Resultados esperados
-  status: success  # Expected overall level ('success', 'error', 'warning', 'information').
-  errors: []  # List of expected errors (empty list indicates success).
-  warnings: []  # List of expected warnings.
-  informations: []  # List of expected information messages.
-  invariants: # Optional.
+  status: success  # Nível geral esperado ('success', 'error', 'warning', 'information').
+  errors: []  # Lista de erros esperados (lista vazia indica sucesso).
+  warnings: []  # Lista de avisos esperados.
+  informations: []  # Lista de mensagens informativas esperadas.
+  invariants: # Opcional.
     - expression: "OperationOutcome.issues.count() = 0"
-      expected: true # Optional. Default is true.
+      expected: true # Opcional. O padrão é true.
 ```
 
-**Regras para `instance_path` e `instance`:**
+Regras para instance_path e instance:  
+- instance_path: se fornecida, indica a instância a ser verificada.
+- Convenção: se instance_path não é fornecida, a ferramenta irá procurar por:
+  - Arquivo com o mesmo nome do arquivo YAML, mas com a extensão .json.
+  - Se não encontrado, um arquivo com o nome test_id e a extensão .json será empregado.
+  - Se instance_path não é fornecida e a convenção não resulta na localização de um arquivo, então a execução do teste falha.
 
-1.  `instance_path`: se fornecida, então indica a instância a ser verificada.
-2.  Convenção: se `instance_path` não é fornecida, a ferramenta irá procurar por:
-    *   Arquivo com o mesmo nome do arquivo YAML, mas com a extensão `.json`.
-    *   Se não encontrado, um arquivo com o nome `test_id` e a extensão `.json` será empregado.
-3.  Se `instance_path` não é fornecida e a convenção não resulta na localização de um
-arquivo, então a execução do teste falha. 
+2. Execução de testes  
+A ferramenta identifica os testes a serem executados.  
+Para cada teste (arquivo YAML):
+- Lê o arquivo
+- Extrai as informações nele contidas
+- Monta a requisição correspondente para o validador (parâmetros)
+- Executa o validador (validator_cli) com os parâmetros
+- Captura a resposta fornecida pelo validador
+- Compara a resposta fornecida pelo validador com as respostas esperadas
+- A representação visual da comparação é produzida.
 
-## 2. Execução de testes
+Convém observar que a execução concorrente dos testes é desejável e segura, pois testes devem ser, idealmente, independentes.  
+Timeout deve ser implementado por teste.  
+A versão mais recente do validator_cli deve ser empregada. Se não disponível localmente, deve ser obtida.
 
-1.  A ferramenta identifica os testes a serem executados.
-2.  Para cada teste (arquivo YAML):
-    *   Lê o arquivo
-    *   Extrai as informações nele contidas
-    *   Monta a requisição correspondente para o validador (parâmetros)
-    *   Executa o validador (`validator_cli`) com os parâmetros
-    *   Captura a resposta fornecida pelo validador
-    *   Compara a resposta fornecida pelo validador com as respostas esperadas
-3.  A representação visual da comparação é produzida.
-4. Convém observar que a execução concorrente dos testes é desejável e segura,
-pois testes devem ser, idealmente, independentes.
-5. Timeout deve ser implementado por teste.
-6. A versão mais recente do `validator_cli` deve ser empregada. Se não disponível
-localmente, deve ser obtida.
+4. Comparação  
+Compara o que foi produzido pelo validador com o que foi especificado em expected_results. Convém lembrar que a resposta do validador é uma instância de OperationOutcome.
 
-## 4. Comparação
+Observe a sequência de passos seguinte para compreensão. Primeiro, execute o validador via linha de comando:
 
-*   Compara o que foi produzido pelo validador com o que foi especificado em `expected_results`. 
-Convém lembrar que a resposta do validador é uma instância de [OperationOutcome](https://www.hl7.org/fhir/R4/operationoutcome.html). 
-
-Observe a sequência de passos seguinte para compreensão. Primeiro, execute o validador via linha de comandos:
-
-- `java -jar validator_cli.jar -version 4.0.1 homem.json -ig perfil.json -output saida.json`
-
-Neste caso a instância **homem.json** será validada. O único artefato de conformidade é o
-arquivo **perfil.json** e a resposta, a instância de OperationOutcome será depositada no
-arquivo **saida.json**. O arquivo contendo a instância a ser testada e o arquivo contendo 
-o perfil estão disponíveis no diretório **fut**. A saída é indicada abaixo:
+java -jar validator_cli.jar -version 4.0.1 homem.json -ig perfil.json -output saida.json  
+Neste caso, a instância homem.json será validada. O único artefato de conformidade é o arquivo perfil.json e a resposta, a instância de OperationOutcome, será depositada no arquivo saida.json. O arquivo contendo a instância a ser testada e o arquivo contendo o perfil estão disponíveis no diretório fut. A saída é indicada abaixo:
 
 ```json
 {
@@ -190,89 +156,84 @@ o perfil estão disponíveis no diretório **fut**. A saída é indicada abaixo:
 
 Observe que o arquivo acima possui um erro e um aviso. A ideia é que este resultado seja verificado com o que é esperado e apresentado o resultado da comparação de forma adequada para o usuário.
 
-## 5. Geração de relatórios
-
-*   Formato principal: HTML (navegável e visualmente atraente).
-*   Formato adicional: JSON (para possível integração com outras ferramentas).
+5. Geração de relatórios  
+Formato principal: HTML (navegável e visualmente atraente).  
+Formato adicional: JSON (para possível integração com outras ferramentas).
 
 Estrutura do relatório HTML (sugestão inicial):
 
-*   Resumo:
-    *   Estatísticas gerais (testes executados, aprovados/reprovados/avisos, gráficos).
-    *   Tempo de execução por teste, por todos os testes.
+Resumo:
+- Estatísticas gerais (testes executados, aprovados/reprovados/avisos, gráficos).
+- Tempo de execução por teste, por todos os testes.
 
-*   Detalhes por Teste:
-    *   `test_id`, `description`, contexto.
-    *   Instância (formatada).
-    *   Resultados Esperados.
-    *   Resultados Obtidos (tabela com diagnósticos, localização e severidade do OperationOutcome).
-    *   Diferenças destacadas.
-    *   Saída bruta do validador (opcional).
+Detalhes por Teste:
+- test_id, description, contexto.
+- Instância (formatada).
+- Resultados Esperados.
+- Resultados Obtidos (tabela com diagnósticos, localização e severidade do OperationOutcome).
+- Diferenças destacadas.
+- Saída bruta do validador (opcional).
 
-## 6. Backend
-
-Responsável pela requisição de execuções de validação e processamento dos resultados.
-É esperado que possa se integrar a outros validadores. 
+6. Backend  
+Responsável pela requisição de execuções de validação e processamento dos resultados. É esperado que possa se integrar a outros validadores.
 
 Principais responsabilidades:
 
-1.  Carga dos casos de teste:
-    *   Carregas as definições de testes de arquivos YAML.
-    * Implementa a localização de arquivos de instâncias (`instance_path`, `instance` ou convenção de nomes).
-    *   Valida o arquivo YAML (formato compatível com o esperado). 
-    *   Handles potential errors gracefully (e.g., missing files, invalid YAML).
+Carga dos casos de teste:
+- Carrega as definições de testes de arquivos YAML.
+- Implementa a localização de arquivos de instâncias (instance_path, instance ou convenção de nomes).
+- Valida o arquivo YAML (formato compatível com o esperado).
+- Lida com erros potenciais de forma adequada (ex: arquivos ausentes, YAML inválido).
 
-2.  Suite Management:
-    *   Loads suite definitions (either from directory structures or manifest files).
-    *   Provides an interface for accessing test cases within a suite.
-    *   Allows for filtering and selecting test cases based on various criteria (e.g., suite, ID, description).
+Gerenciamento da suíte:
+- Carrega definições de suítes (seja por estrutura de diretórios ou arquivos de manifesto).
+- Fornece uma interface para acessar casos de teste dentro de uma suíte.
+- Permite filtrar e selecionar casos de teste com base em vários critérios (ex: suíte, ID, descrição).
 
-3.  Context Preparation:
-    *   Based on the `context` defined in the test case:
-        *   Collects the necessary Implementation Guides (IGs).
-        *   Collects the relevant profiles (StructureDefinitions).
-        *   Loads any additional resources specified (ValueSets, CodeSystems, etc.).
-        *   Prepares this information in a format suitable for the chosen FHIR validator.
+Preparação de contexto:
+- Com base no contexto definido no caso de teste:
+  - Coleta os Implementation Guides (IGs) necessários.
+  - Coleta os perfis relevantes (StructureDefinitions).
+  - Carrega quaisquer recursos adicionais especificados (ValueSets, CodeSystems, etc.).
+  - Prepara essas informações em um formato adequado para o validador FHIR escolhido.
 
-4.  Validator Execution:
-    *   Interfaces with the chosen FHIR validator (e.g., `validator_cli`). This should be done through an abstraction layer (e.g., a `Validator` class) to make it easy to switch validators in the future.
-    *   Constructs the appropriate command-line arguments (or API calls) for the validator, based on the test case context and instance.
-    *   Executes the validator, handling potential errors and timeouts.
-    *   Captures the validator's standard output (stdout) and standard error (stderr).
+Execução do validador:
+- Interface com o validador FHIR escolhido (ex: validator_cli). Isso deve ser feito por meio de uma camada de abstração (ex: uma classe Validator) para facilitar a troca de validadores no futuro.
+- Constrói os argumentos de linha de comando apropriados (ou chamadas de API) para o validador, com base no contexto do caso de teste e da instância.
+- Executa o validador, lidando com possíveis erros e timeouts.
+- Captura a saída padrão (stdout) e o erro padrão (stderr) do validador.
 
-5.  Result Processing:
-    *   Parses the validator's output (which might be in JSON, XML, or another format, depending on the validator).
-    *   Extracts relevant information:
-        *   Overall validation status (success, error, warning).
-        *   Individual messages (errors, warnings, information).
-        *   Location of each message (XPath or FHIRPath).
-        *   Severity of each message.
+Processamento de resultados:
+- Analisa a saída do validador (que pode estar em JSON, XML ou outro formato, dependendo do validador).
+- Extrai informações relevantes:
+  - Status geral da validação (success, error, warning).
+  - Mensagens individuais (erros, avisos, informações).
+  - Localização de cada mensagem (XPath ou FHIRPath).
+  - Severidade de cada mensagem.
 
-6.  Result Comparison:
-    *   Compares the extracted results with the `expected_results` defined in the test case.
-    *   Identifies and categorizes discrepancies:
-        *   Unexpected errors/warnings/information.
-        *   Expected errors/warnings/information that were not found.
-        *   Mismatches in severity or location.
-    *   FHIRPath expression evaluation and comparison with expected result.
+Comparação de resultados:
+- Compara os resultados extraídos com os expected_results definidos no caso de teste.
+- Identifica e categoriza discrepâncias:
+  - Erros/avisos/informações inesperados.
+  - Erros/avisos/informações esperados que não foram encontrados.
+  - Incompatibilidades de severidade ou localização.
+  - Avaliação de expressões FHIRPath e comparação com o resultado esperado.
 
-7.  Data Storage:
-    *   If persistence is required (e.g., for storing test results over time, or for a GUI), the backend handles storing and retrieving this data. This could be in:
-        *   Simple files (JSON, YAML).
+Armazenamento de dados:
+- Se for necessário persistência (ex: para armazenar resultados de testes ao longo do tempo, ou para uma interface gráfica), o backend lida com o armazenamento e recuperação desses dados. Isso pode ser em:
+  - Arquivos simples (JSON, YAML).
 
-8. Report Data Preparation:
-   * Prepares all data needed by the report generator, including a structured report.
+Preparação de dados para relatório:
+- Prepara todos os dados necessários para o gerador de relatórios, incluindo um relatório estruturado.
 
-Architectural Considerations:
-
-*   Modularity: the backend should be designed as a set of independent modules (classes or functions) with clear responsibilities. This makes it easier to maintain, test, and extend.
-*   Abstraction: use abstraction layers (interfaces, abstract classes) to decouple components. For example, the `Validator` class should abstract away the specific details of interacting with `validator_cli` or any other validator.
-*   Error handling: implement robust error handling throughout the backend to gracefully handle unexpected situations (e.g., invalid input, validator errors, file system issues). Provide informative error messages to the user.
-*   Configuration: allow for configuration of various aspects of the backend, such as:
-    *   The path to the FHIR validator executable.
-    *   Timeout settings.
-    *   Parallelization options.
-    *   Data storage options.
-*   Logging: use a logging library to record important events, debug information, and errors. This is crucial for troubleshooting.
-* Testability: The backend must itself be comprehensively tested.
-
+Considerações arquiteturais:
+- Modularidade: o backend deve ser projetado como um conjunto de módulos independentes (classes ou funções) com responsabilidades claras. Isso facilita a manutenção, testes e extensões.
+- Abstração: use camadas de abstração (interfaces, classes abstratas) para desacoplar componentes. Por exemplo, a classe Validator deve abstrair os detalhes específicos de interação com o validator_cli ou qualquer outro validador.
+- Tratamento de erros: implemente tratamento robusto de erros em todo o backend para lidar graciosamente com situações inesperadas (ex: entrada inválida, erros do validador, problemas no sistema de arquivos). Forneça mensagens de erro informativas ao usuário.
+- Configuração: permita a configuração de vários aspectos do backend, como:
+  - Caminho para o executável do FHIR validator.
+  - Configurações de timeout.
+  - Opções de paralelização.
+  - Opções de armazenamento de dados.
+- Logging: use uma biblioteca de logging para registrar eventos importantes, informações de depuração e erros. Isso é crucial para troubleshooting.
+- Testabilidade: o backend deve ser amplamente testado.
