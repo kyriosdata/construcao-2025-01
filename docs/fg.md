@@ -32,7 +32,6 @@ Referência rápida para operações comuns:
 | Variável de Ambiente | Descrição |
 |---------------------|-----------|
 | `FG_HOME` | Define o diretório de trabalho padrão. Se não definida, o diretório padrão será `.fg` no diretório *home* do usuário. |
-| `FG_LOG_LEVEL` | Define o nível de log. Valores aceitos: `debug`, `info`, `warn`, `error`. |
 
 O diretório home do usuário pode ser identificado usando os comandos abaixo:
 
