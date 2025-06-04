@@ -191,8 +191,8 @@ Exemplo de saída:
 
 ### Controle da aplicação
 
-#### `fg start [nome]`
-- Inicia uma versão específica da aplicação (deve estar instalada primeiro).
+#### `fg start [versão] [nome]`
+- Inicia um app dentro de uma versão específica (deve estar instalada primeiro).
 - Valida a configuração antes da inicialização
 - Saída de sucesso (em verde): `Aplicação iniciada com sucesso. PID: 1234`
 - Saída de erro (em vermelho): `Falha ao iniciar a aplicação [nome]: [motivo do erro]`
