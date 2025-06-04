@@ -196,9 +196,9 @@ Exemplo de saída:
 - Saída de sucesso (em verde): `Aplicação iniciada com sucesso. PID: 1234`
 - Saída de erro (em vermelho): `Falha ao iniciar a aplicação [nome]: [motivo do erro]`
 
-#### `fg stop [nome]`
-- Interrompe a execução da aplicação nomeada.
-- O nome da aplicação pode ser obtido do comando `fg status`.
+#### `fg stop [pid]`
+- Interrompe a execução de um processo inicializado pelo fg.
+- O pid da aplicação pode ser obtido do comando `fg status`.
 - Encerramento com timeout de 10s por padrão
 - Saída de sucesso (em verde): `Instância da aplicação (PID: 1234) parada com sucesso`
 - Saída de erro (em vermelho): `Falha ao parar instância: [motivo do erro]`
