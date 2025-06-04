@@ -11,10 +11,10 @@ mas uma interface gráfica pode ser iniciada usando o comando `gui`.
 Referência rápida para operações comuns:
 
 1. Instalar a versão mais recente (caso já não esteja disponível): `fg update`
-2. Iniciar a aplicação: `fg start [nome]`
+2. Iniciar a aplicação: `fg start [versão] [nome]`
 3. Verificar status: `fg status`
-4. Visualizar logs: `fg logs [nome]`
-5. Parar aplicação: `fg stop [nome]`
+4. Visualizar logs: `fg logs [versão] [nome]`
+5. Parar aplicação: `fg stop [pid]`
 
 ## Requisitos de operação
 - Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
