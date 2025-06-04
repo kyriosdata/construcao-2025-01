@@ -161,6 +161,7 @@ graph LR
 
 #### `fg update`
 - Verifica se existe uma versão mais recente do que a mais recente em `$FG_HOME/`.
+- Exige conexão com a internet para ver se existe uma versão mais recente a ser instalada.
 - Se uma versão mais recente existir, baixa, instala e define como a versão padrão atual.
 - Exibe:
   - Saída de sucesso (em verde): `Atualizado para versão [nova versão]. Esta é agora a versão padrão.`
