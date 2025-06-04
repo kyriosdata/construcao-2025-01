@@ -240,8 +240,8 @@ Exemplo de saída:
 - Listar todas as versões instaladas e local de instalação: `fg list`
 - Instalar uma versão específica: `fg install 1.0.0`
 - Verificar atualizações: `fg update`
-- Iniciar a aplicação: `fg start validador`
+- Iniciar a aplicação: `fg start 1.0.0 validador`
   - Saída: `Aplicação iniciada com sucesso. PID: 1234`
 - Verificar o status das instâncias em execução: `fg status`
-- Monitorar os logs para uma instância específica: `fg logs validador`
-- Parar uma instância em execução: `fg stop validador`
+- Monitorar os logs para uma instância específica: `fg logs 1.0.0 validador`
+- Parar uma instância em execução: `fg stop 1234`
