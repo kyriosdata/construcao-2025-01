@@ -17,6 +17,12 @@ Opções:
 - FHIR Guard ([requisitos](docs/fg.md)) ([design preliminar](docs/fg-design.md))
 - FHIR Unit Test ([requisitos](docs/fut.md)) ([design preliminar](docs/fut-design.md))
 
+# Sprint 9 (13/06)
+
+- Iniciamos a Sprint que deve resultar em 100% do trabalho implementado. 
+- Até lá, conforme plano da discipliona, é a oportunidade para esclarecermos dúvidas,
+  seja sobre o trabalho, seja sobre construção de software.
+
 # Sprint 6 (07/05 ...)
 
 - Conforme o plano, deveríamos estar hoje, 14/05, na Sprint 6, contudo, o conteúdo dos
