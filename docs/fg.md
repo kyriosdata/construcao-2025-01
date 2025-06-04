@@ -216,8 +216,8 @@ Exemplo de saída:
   5678    1.0.0    8081   30m          128MB     1%    5
   ```
 
-#### `fg logs [nome]`
-- Exibe os logs da aplicação nomeada
+#### `fg logs [versao] [nome]`
+- Exibe os logs da aplicação nomeada de uma versão específica
 - Suporta opções:
   - `--tail <n>`: Mostra as últimas `n` linhas dos logs.
   - `--follow`: Acompanha a saída do log em tempo real.
