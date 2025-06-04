@@ -47,7 +47,7 @@ O diretório home do usuário pode ser identificado usando os comandos abaixo:
 
 #### `fg available`
 - Lista todas as versões disponíveis, independentemente do que está instalado localmente. Depende de acesso à internet para recuperação de arquivo contendo a descrição das versões disponíveis.
-- Mostra as versões e, para cada uma delas, a data de lançamento.
+- Mostra as versões e, para cada uma delas, a data de lançamento e a versão do JDK utilizado.
 
 Exemplo de saída:
 
