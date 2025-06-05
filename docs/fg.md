@@ -4,8 +4,7 @@
 A interface de linha de comando (CLI) `fg` é uma ferramenta para gerenciar 
 e executar a aplicação FHIR Guard. Ela fornece uma interface consistente 
 e fácil de usar para instalar, atualizar, iniciar, parar e monitorar 
-diferentes versões desta aplicação. Por padrão, o `fg` opera no modo CLI, 
-mas uma interface gráfica pode ser iniciada usando o comando `gui`.
+diferentes versões desta aplicação.
 
 > **Nota sobre configuração**: O FHIR Guard não possui mecanismos para configurar parâmetros específicos de cada aplicação. As aplicações são executadas com suas configurações padrão.
 
@@ -21,15 +20,6 @@ mas uma interface gráfica pode ser iniciada usando o comando `gui`.
 > - Não há suporte para integração com outras ferramentas
 > - Não há APIs ou interfaces para integração externa
 > - O sistema opera de forma isolada
-
-## Primeiros passos
-Referência rápida para operações comuns:
-
-1. Instalar a versão mais recente (caso já não esteja disponível): `fg update`
-2. Iniciar a aplicação: `fg start [nome]`
-3. Verificar status: `fg status`
-4. Visualizar logs: `fg logs [nome]`
-5. Parar aplicação: `fg stop [nome]`
 
 ## Requisitos de operação
 - Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
@@ -139,21 +129,6 @@ apenas parte das duas primeiras versões disponíveis seria:
 }
 ```
 
-#### `fg gui`
-- Inicia a interface gráfica do usuário.
-- A GUI fornece acesso a toda a funcionalidade do `fg` através de uma interface interativa e gráfica.
-- Saída de sucesso: `Interface gráfica iniciada com sucesso.`
-- Saída de erro (em vermelho): `Falha ao iniciar interface gráfica`. Neste caso, uma mensagem de erro é mostrada
-na próxima linha (em preto).
-
-> **Nota sobre a interface gráfica**: 
-> - A interface é responsiva e se adapta a diferentes tamanhos de tela
-> - Não há requisitos mínimos de resolução de tela
-> - O comportamento visual pode apresentar pequenas variações entre diferentes ambientes gráficos, mas mantém a mesma funcionalidade
-> - A GUI requer um ambiente gráfico disponível em seu sistema
-> - Não há suporte para temas visuais ou personalização da interface
-> - A interface é padronizada para todas as versões
-
 ### Gerenciamento de instalação
 
 A aplicação FHIR Guard está disponível em muitas versões. 
@@ -204,3 +179,13 @@ pode ser executada pelo JDK indicado em cada versão.
 
 Exemplo de saída:
   ```
+```
+
+## Primeiros passos
+Referência rápida para operações comuns:
+
+1. Instalar a versão mais recente (caso já não esteja disponível): `fg update`
+2. Iniciar a aplicação: `fg start [nome]`
+3. Verificar status: `fg status`
+4. Visualizar logs: `fg logs [nome]`
+5. Parar aplicação: `fg stop [nome]`
