@@ -1,22 +1,25 @@
 # Documentação do FHIR Guard (fg)
 
 ## Visão geral
-A interface de linha de comando (CLI) `fg` é uma ferramenta para gerenciar 
-e executar a aplicação FHIR Guard. Ela fornece uma interface consistente 
-e fácil de usar para instalar, atualizar, iniciar, parar e monitorar 
-diferentes versões desta aplicação.
+A aplicação de linha de comando (CLI) `fg` é uma ferramenta para gerenciar 
+aplicações Java. O `fg` faz uso de um arquivo de configuração no qual 
+há detalhes suficientes para instalar, atualizar, iniciar, parar e monitorar
+cada aplicação. 
 
-> **Nota sobre configuração**: O FHIR Guard não possui mecanismos para configurar parâmetros específicos de cada aplicação. As aplicações são executadas com suas configurações padrão.
+De forma simplificada, o `fg` consulta o arquivo de configuração, 
+disponível remotamente, por exemplo, `https://github.com/fg/fg-config.json`
+
+> **Nota sobre configuração**: O `fg` não possui mecanismos para configurar parâmetros específicos de cada aplicação. As aplicações são executadas com suas configurações padrão.
 
 > **Nota sobre segurança**: 
-> - O FHIR Guard não possui operações restritas ou que demandem credenciais
+> - O `fg` não possui operações restritas ou que demandem credenciais
 > - Todas as operações são realizadas com as permissões do usuário que executa o comando
 > - Não há níveis de segurança configuráveis
 > - Não há políticas de segurança personalizáveis
 > - O acesso aos arquivos segue as permissões do sistema operacional
 
 > **Nota sobre integração**:
-> - O FHIR Guard é uma ferramenta independente
+> - O `fg` é uma ferramenta independente
 > - Não há suporte para integração com outras ferramentas
 > - Não há APIs ou interfaces para integração externa
 > - O sistema opera de forma isolada
@@ -31,8 +34,8 @@ diferentes versões desta aplicação.
   - Não há requisitos específicos de configuração de firewall
   - Não há suporte para outros protocolos além de HTTP(S)
   - Não há configurações de timeout ou retentativas de conexão
-- JRE: O sistema requer JRE versão 17, que será gerenciado e instalado automaticamente pelo FHIR Guard
-  - Nota: O FHIR Guard utiliza sua própria instalação do JDK/JRE e não faz uso de versões do Java eventualmente instaladas no sistema
+- JRE: O sistema requer JRE versão 17, que será gerenciado e instalado automaticamente pelo `fg`
+  - Nota: O `fg` utiliza sua própria instalação do JDK/JRE e não faz uso de versões do Java eventualmente instaladas no sistema
 - Permissões: Apenas permissões de leitura e escrita no diretório de instalação são necessárias
 - Dependências: Não há necessidade de bibliotecas nativas ou outras dependências além do JDK
 
@@ -55,12 +58,12 @@ diferentes versões desta aplicação.
 > - O nível de log pode ser configurado através da variável de ambiente FG_LOG_LEVEL
 
 > **Nota sobre performance**:
-> - O FHIR Guard não possui mecanismos de configuração de limites de recursos
+> - O `fg` não possui mecanismos de configuração de limites de recursos
 > - Não há configurações específicas de performance para diferentes versões
 > - O sistema não fornece mecanismos de monitoramento de recursos
 
 > **Nota sobre backup e recuperação**:
-> - O FHIR Guard não possui mecanismos de backup automático
+> - O `fg` não possui mecanismos de backup automático
 > - Não há mecanismos de recuperação em caso de falha
 > - O sistema não suporta exportação ou importação de configurações
 
@@ -72,7 +75,7 @@ diferentes versões desta aplicação.
 
 ## Opções globais
 - `--dir string`: especifica o diretório de trabalho (também pode ser definido através da variável de ambiente `FG_HOME`).
-  - Se `FG_HOME` não estiver definida e `--dir` não for um parâmetro fornecido, o diretório padrão será o diretório `.fg` no diretório *home* do usuário (será criado, se necessário).
+  - Se `FG_HOME` não estiver definida e `--dir` não for um parâmetro fornecido, o diretório padrão será o diretório `.fg` no diretório *home* do usuário (sera criado, se necessário).
 - `--help, -h`: Exibe informações de ajuda para qualquer comando.
 
 ### Variáveis de ambiente
@@ -82,7 +85,7 @@ diferentes versões desta aplicação.
 | `FG_HOME` | Define o diretório de trabalho padrão. Se não definida, o diretório padrão será `.fg` no diretório *home* do usuário. |
 | `FG_LOG_LEVEL` | Define o nível de log. Valores aceitos: `debug`, `info`, `warn`, `error`. |
 
-> **Nota sobre variáveis de ambiente**: O FHIR Guard suporta apenas as variáveis de ambiente listadas acima. Não há mecanismos adicionais para configurar o ambiente de execução das aplicações.
+> **Nota sobre variáveis de ambiente**: O `fg` suporta apenas as variáveis de ambiente listadas acima. Não há mecanismos adicionais para configurar o ambiente de execução das aplicações.
 
 O diretório home do usuário pode ser identificado usando os comandos abaixo:
 
@@ -131,15 +134,15 @@ apenas parte das duas primeiras versões disponíveis seria:
 
 ### Gerenciamento de instalação
 
-A aplicação FHIR Guard está disponível em muitas versões. 
+A aplicação `fg` está disponível em muitas versões. 
 Cada versão é uma coleção de aplicações Java e arquivos, cada um com um ciclo de vida independente 
 e sua própria versão. Cada aplicação é composta por arquivos jar e outros. Em particular, 
 pode ser executada pelo JDK indicado em cada versão.
 
-> **Nota sobre dados**: Cada versão do FHIR Guard mantém seus próprios dados quando necessário. Não há necessidade de migração de dados entre versões, pois cada versão opera de forma independente.
+> **Nota sobre dados**: Cada versão do `fg` mantém seus próprios dados quando necessário. Não há necessidade de migração de dados entre versões, pois cada versão opera de forma independente.
 
 #### `fg install [versão]`
-- Instala uma versão específica da aplicação FHIR Guard.
+- Instala uma versão específica da aplicação.
 - Suporta apenas versionamento semântico: `x.y.z` (ex: `1.0.0`, `2.1.3`).
 - Saída de sucesso (em verde): `Versão [versão] instalada com sucesso`.
 - Saída de erro (em vermelho): `Falha ao instalar versão [versão]: [motivo do erro]`.
@@ -179,7 +182,6 @@ pode ser executada pelo JDK indicado em cada versão.
 
 Exemplo de saída:
   ```
-```
 
 ## Primeiros passos
 Referência rápida para operações comuns:
