@@ -7,6 +7,21 @@ e fácil de usar para instalar, atualizar, iniciar, parar e monitorar
 diferentes versões desta aplicação. Por padrão, o `fg` opera no modo CLI, 
 mas uma interface gráfica pode ser iniciada usando o comando `gui`.
 
+> **Nota sobre configuração**: O FHIR Guard não possui mecanismos para configurar parâmetros específicos de cada aplicação. As aplicações são executadas com suas configurações padrão.
+
+> **Nota sobre segurança**: 
+> - O FHIR Guard não possui operações restritas ou que demandem credenciais
+> - Todas as operações são realizadas com as permissões do usuário que executa o comando
+> - Não há níveis de segurança configuráveis
+> - Não há políticas de segurança personalizáveis
+> - O acesso aos arquivos segue as permissões do sistema operacional
+
+> **Nota sobre integração**:
+> - O FHIR Guard é uma ferramenta independente
+> - Não há suporte para integração com outras ferramentas
+> - Não há APIs ou interfaces para integração externa
+> - O sistema opera de forma isolada
+
 ## Primeiros passos
 Referência rápida para operações comuns:
 
@@ -18,9 +33,52 @@ Referência rápida para operações comuns:
 
 ## Requisitos de operação
 - Sistema operacional suportado (versões mais recentes de): Windows, macOS, Linux
+  - Não há requisitos específicos de versão do sistema operacional
 - Mínimo de RAM: 2GB
 - Armazenamento: 1GB
 - Rede: acesso HTTP(S) de saída
+  - Suporte a proxy configurável para downloads e atualizações
+  - Não há requisitos específicos de configuração de firewall
+  - Não há suporte para outros protocolos além de HTTP(S)
+  - Não há configurações de timeout ou retentativas de conexão
+- JRE: O sistema requer JRE versão 17, que será gerenciado e instalado automaticamente pelo FHIR Guard
+  - Nota: O FHIR Guard utiliza sua própria instalação do JDK/JRE e não faz uso de versões do Java eventualmente instaladas no sistema
+- Permissões: Apenas permissões de leitura e escrita no diretório de instalação são necessárias
+- Dependências: Não há necessidade de bibliotecas nativas ou outras dependências além do JDK
+
+> **Nota sobre o sistema de arquivos**:
+> - O sistema utiliza UTF-8 para codificação de caracteres em nomes de arquivos e diretórios
+> - Caminhos de arquivo são tratados de forma compatível com cada sistema operacional
+> - Recomenda-se evitar caracteres especiais em nomes de arquivos e diretórios
+> - O comprimento máximo de caminhos segue as limitações do sistema operacional
+
+> **Nota sobre data, hora e localização**:
+> - Todos os timestamps são armazenados em UTC
+> - A interface e documentação estão disponíveis apenas em português do Brasil
+> - Formatos de data e hora seguem o padrão brasileiro (dd/mm/aaaa)
+
+> **Nota sobre logs**:
+> - Os logs são armazenados em arquivos de texto no diretório de instalação
+> - O formato dos logs inclui timestamp, nível de log e mensagem
+> - Os logs são rotacionados automaticamente quando atingem 10MB
+> - São mantidos os últimos 5 arquivos de log
+> - O nível de log pode ser configurado através da variável de ambiente FG_LOG_LEVEL
+
+> **Nota sobre performance**:
+> - O FHIR Guard não possui mecanismos de configuração de limites de recursos
+> - Não há configurações específicas de performance para diferentes versões
+> - O sistema não fornece mecanismos de monitoramento de recursos
+
+> **Nota sobre backup e recuperação**:
+> - O FHIR Guard não possui mecanismos de backup automático
+> - Não há mecanismos de recuperação em caso de falha
+> - O sistema não suporta exportação ou importação de configurações
+
+> **Nota sobre tratamento de erros**:
+> - O sistema não possui tratamento específico para diferentes tipos de erro
+> - Os erros são apenas registrados nos logs
+> - A execução continua após o registro do erro
+> - Não há mecanismos de recuperação ou retry automático
 
 ## Opções globais
 - `--dir string`: especifica o diretório de trabalho (também pode ser definido através da variável de ambiente `FG_HOME`).
@@ -33,6 +91,8 @@ Referência rápida para operações comuns:
 |---------------------|-----------|
 | `FG_HOME` | Define o diretório de trabalho padrão. Se não definida, o diretório padrão será `.fg` no diretório *home* do usuário. |
 | `FG_LOG_LEVEL` | Define o nível de log. Valores aceitos: `debug`, `info`, `warn`, `error`. |
+
+> **Nota sobre variáveis de ambiente**: O FHIR Guard suporta apenas as variáveis de ambiente listadas acima. Não há mecanismos adicionais para configurar o ambiente de execução das aplicações.
 
 O diretório home do usuário pode ser identificado usando os comandos abaixo:
 
@@ -86,73 +146,22 @@ apenas parte das duas primeiras versões disponíveis seria:
 - Saída de erro (em vermelho): `Falha ao iniciar interface gráfica`. Neste caso, uma mensagem de erro é mostrada
 na próxima linha (em preto).
 
-> **Nota**: a GUI requer um ambiente gráfico disponível em seu sistema.
+> **Nota sobre a interface gráfica**: 
+> - A interface é responsiva e se adapta a diferentes tamanhos de tela
+> - Não há requisitos mínimos de resolução de tela
+> - O comportamento visual pode apresentar pequenas variações entre diferentes ambientes gráficos, mas mantém a mesma funcionalidade
+> - A GUI requer um ambiente gráfico disponível em seu sistema
+> - Não há suporte para temas visuais ou personalização da interface
+> - A interface é padronizada para todas as versões
 
 ### Gerenciamento de instalação
 
 A aplicação FHIR Guard está disponível em muitas versões. 
 Cada versão é uma coleção de aplicações Java e arquivos, cada um com um ciclo de vida independente 
 e sua própria versão. Cada aplicação é composta por arquivos jar e outros. Em particular, 
-pode ser executada pelo JDK indicado em cada versão. 
-Ou seja, à estrutura indicada acima (documento JSON), pode ser acrescentado o
-elemento `apps`, um vetor de objetos onde cada objeto segue a estrutura
-abaixo:
+pode ser executada pelo JDK indicado em cada versão.
 
-```plaintext
-{
-  "versoes": [
-    {
-      "versao": "1.2.3",
-      "data": "2025-03-23",
-      "jdk": {
-        "versao": "21",
-        "plataformas": {
-          "win":   "https://tgz.com/jdk_21-2.3_windows.tgz",
-          "mac":   "https://tgz.com/jdk_21-2.3_macos.tgz",
-          "linux": "https://tgz.com/jdk_21-2.3_linux.tgz"
-        }
-      },
-      "apps": [
-        {
-          "nome": "validador",
-          "descricao": "Aplicação de validação de configurações",
-          "versao": "2.3.4",
-          "dependencias": [
-            "https://github.com/deposito/dependencias/config-0.1.2.jar"
-          ],
-          "arquivos": [
-            "https://servidor.com/teste.txt",
-            "https://x.com/bd/2025/aten-84.bin"
-          ],
-          "comando": "java -jar config-0.1.2.jar -f teste.txt -bin aten-84.bin",
-          "logs" : "config.log"
-        }
-      ]
-    }
-  ]
-}
-```
-
-Esta relação pode ser ilustrada abaixo.
-
-```mermaid
-graph LR
-    FHIR_Guard["Aplicação FHIR Guard"] --> FG_V1["FHIR Guard v1"]
-    FHIR_Guard --> FG_Vn["FHIR Guard vN<br>detalhes não mostrados"]
-
-    subgraph FG_V1_Details [" "]
-        FG_V1 --> FG1_App1["Aplicação Java v1<br>(parâmetros para iniciar)"]
-        FG_V1 --> FG1_App2["Aplicação Java vJ<br>(detalhes não mostrados)"]
-        FG_V1 --> FG1_File1["Arquivo 1<br>URL para download e<br>nome local"]
-        FG_V1 --> FG1_FileN["Arquivo F<br>detalhes não mostrados"]
-        
-        subgraph FG1_App1_Details [" "]
-            FG1_App1 --> FG1_App1_Dependencies["Dependência 1 (arquivo jar)<br>URL para download<br>e nome local"]
-            FG1_App1 --> FG1_App2_Dependencies["Dependência k (arquivo jar)<br>URL para download"]
-            FG1_App1 --> FG1_App1_JDK["Versão Específica do JDK<br>URL para download"]
-        end
-    end
-```
+> **Nota sobre dados**: Cada versão do FHIR Guard mantém seus próprios dados quando necessário. Não há necessidade de migração de dados entre versões, pois cada versão opera de forma independente.
 
 #### `fg install [versão]`
 - Instala uma versão específica da aplicação FHIR Guard.
@@ -168,7 +177,13 @@ graph LR
   - Nenhuma atualização disponível: `Nenhuma versão mais recente disponível. Você tem disponível a versão mais recente: [versão atual].`
   - Saída de erro (em vermelho): `Falha ao atualizar: [motivo do erro]`
 
-> **Nota**: conectividade com a internet é necessária para o processo de atualização verificar e baixar novas versões.
+> **Nota sobre atualizações**: 
+> - Conectividade com a internet é necessária para o processo de atualização verificar e baixar novas versões
+> - O sistema não verifica compatibilidade antes de atualizar
+> - Não há mecanismo de rollback em caso de falha na atualização
+> - Recomenda-se manter uma cópia da versão anterior caso seja necessário retornar a ela
+> - Atualizações devem ser iniciadas manualmente através do comando `fg update`
+> - Não há verificações de integridade das atualizações
 
 #### `fg uninstall [versão]`
 - Remove uma versão específica da aplicação.
@@ -177,73 +192,15 @@ graph LR
 - Saída de sucesso (em verde): `"Versão [versão] desinstalada com sucesso"`
 - Saída de erro (em vermelho): `"Falha ao desinstalar versão [versão]: [motivo do erro]"`
 
+> **Nota sobre desinstalação**:
+> - A desinstalação é sempre manual e requer confirmação do usuário
+> - Não há suporte para desinstalação silenciosa ou automática
+> - O processo simplesmente remove os arquivos da versão especificada
+> - Não há verificações adicionais após a remoção dos arquivos
+
 #### `fg list`
 - Mostra todas as versões instaladas da aplicação.
 - A versão instalada mais recente é automaticamente definida como padrão e marcada com um asterisco (*).
 
 Exemplo de saída:
-  ```plaintext
-  Versões instaladas:
-  * 1.1.0 (padrão - mais recente)
-    1.0.0
-    0.9.0
   ```
-
-### Controle da aplicação
-
-#### `fg start [nome]`
-- Inicia uma versão específica da aplicação (deve estar instalada primeiro).
-- Valida a configuração antes da inicialização
-- Saída de sucesso (em verde): `Aplicação iniciada com sucesso. PID: 1234`
-- Saída de erro (em vermelho): `Falha ao iniciar a aplicação [nome]: [motivo do erro]`
-
-#### `fg stop [nome]`
-- Interrompe a execução da aplicação nomeada.
-- O nome da aplicação pode ser obtido do comando `fg status`.
-- Encerramento com timeout de 10s por padrão
-- Saída de sucesso (em verde): `Instância da aplicação (PID: 1234) parada com sucesso`
-- Saída de erro (em vermelho): `Falha ao parar instância: [motivo do erro]`
-
-### Monitoramento e diagnóstico
-
-#### `fg status`
-- Mostra o status atual de todas as instâncias em execução da aplicação.
-- Inclui detalhes como PID, versão, porta, tempo de atividade, uso de memória, uso de CPU e número de tarefas.
-- Exemplo de saída:
-  ```plaintext
-  PID     Versão  Porta   Tempo Ativo   Memória   CPU   Tarefas
-  1234    1.1.0    8080   2h           256MB     2%    10
-  5678    1.0.0    8081   30m          128MB     1%    5
-  ```
-
-#### `fg logs [nome]`
-- Exibe os logs da aplicação nomeada
-- Suporta opções:
-  - `--tail <n>`: Mostra as últimas `n` linhas dos logs.
-  - `--follow`: Acompanha a saída do log em tempo real.
-- Os logs são armazenados no local especificado no arquivo `config.yaml`.
-
-## Instruções de instalação
-
-### Windows
-1. Baixe o binário `fg` e coloque-o no diretório desejado
-2. Adicione o diretório de instalação ao PATH
-3. Verifique a instalação com `fg --version`
-
-### Linux/macOS
-1. Baixe o binário `fg` e coloque-o no diretório desejado.
-2. Certifique-se de que `fg` está no seu PATH adicionando `export PATH=$PATH:/caminho/para/fg` à sua configuração de shell
-3. Torne o binário executável: `chmod +x fg`
-4. Verifique a instalação com `fg --version`
-
-## Exemplos de uso
-- Iniciar modo GUI: `fg gui`. Inicia a interface gráfica e produz no console
-  `Interface gráfica iniciada com sucesso.`
-- Listar todas as versões instaladas e local de instalação: `fg list`
-- Instalar uma versão específica: `fg install 1.0.0`
-- Verificar atualizações: `fg update`
-- Iniciar a aplicação: `fg start validador`
-  - Saída: `Aplicação iniciada com sucesso. PID: 1234`
-- Verificar o status das instâncias em execução: `fg status`
-- Monitorar os logs para uma instância específica: `fg logs validador`
-- Parar uma instância em execução: `fg stop validador`
