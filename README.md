@@ -17,6 +17,13 @@ Opções:
 - FHIR Guard ([requisitos](docs/fg.md)) ([design preliminar](docs/fg-design.md))
 - FHIR Unit Test ([requisitos](docs/fut.md)) ([design preliminar](docs/fut-design.md))
 
+# Fase final, fechamento...
+
+Estamos chegando ao fim da disciplina. É o momento de concluir o que falta e 
+dedicar o horário da disciplina para a melhoria do trabalho prático.  Dia 25/06, 
+conforme o plano, é o último dia. Avaliações serão feitas apenas no que estiver
+disponível no seu repositório até e incluse, nesse dia. 
+
 # Sprint 9 (13/06)
 
 - Iniciamos a Sprint que deve resultar em 100% do trabalho implementado. 
