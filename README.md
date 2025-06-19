@@ -1,3 +1,12 @@
+# Fechamento da disciplina
+
+As notas finais da disciplina continuam disponíveis no sistema (SIGAA) para 
+a conferência de todos. Ainda temos dois encontros e eventuais ajustes 
+poderão ser feitos (traga suas observações). Nesta reta final, continua
+a possibilidade de esclarecermos dúvidas sobre o conteúdo e outros 
+elementos pertinentes ao desenvolvimento de software. Para aqueles
+que já obtiveram nota necessária, desejo boas férias!
+
 # Construção de Software (2025/1)
 
 Apresenta projetos a serem utilizados nas atividades práticas da disciplina [Construção de Software](docs/plano-construcao-2025-01.pdf) (2025/01)
