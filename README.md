@@ -1,3 +1,5 @@
+Este repositório for arquivado (read only). Não são esperadas mudanças ou ajustes. 
+
 # Fechamento da disciplina
 
 As notas finais da disciplina continuam disponíveis no sistema (SIGAA) para 
